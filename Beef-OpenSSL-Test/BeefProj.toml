@@ -1,0 +1,6 @@
+FileVersion = 1
+Dependencies = {corlib = "*", Beef-OpenSSL = "*"}
+
+[Project]
+Name = "Beef-OpenSSL-Test"
+StartupObject = "Beef_OpenSSL_Test.Program"

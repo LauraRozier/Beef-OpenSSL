@@ -1,0 +1,5 @@
+FileVersion = 1
+Projects = {Beef-OpenSSL = {Path = "."}, Beef-OpenSSL-Test = {Path = "Beef-OpenSSL-Test"}}
+
+[Workspace]
+StartupProject = "Beef-OpenSSL-Test"
