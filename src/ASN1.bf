@@ -1517,6 +1517,9 @@ namespace Beef_OpenSSL
 			CLink
 		]
 		public static extern int i2a_ASN1_OBJECT(BIO.bio_st* bp, OBJECT* a);
+
+		public struct stack_st_ASN1_STRING {}
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),

@@ -1824,14 +1824,14 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_write")
 		]
-		public extern static int meth_set_write(METHOD* biom, function int(bio_st*, char8*, int) write);
+		public extern static bool meth_set_write(METHOD* biom, function int(bio_st*, char8*, int) write);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
 #endif
 			LinkName("BIO_meth_set_write_ex")
 		]
-		public extern static int meth_set_write_ex(METHOD* biom, function int(bio_st*, char8*, uint, uint*) bwrite);
+		public extern static bool meth_set_write_ex(METHOD* biom, function int(bio_st*, char8*, uint, uint*) bwrite);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1852,14 +1852,14 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_read")
 		]
-		public extern static int meth_set_read(METHOD* biom, function int(bio_st*, char8*, int) read);
+		public extern static bool meth_set_read(METHOD* biom, function int(bio_st*, char8*, int) read);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
 #endif
 			LinkName("BIO_meth_set_read_ex")
 		]
-		public extern static int meth_set_read_ex(METHOD* biom, function int(bio_st*, char8*, uint, uint*) bread);
+		public extern static bool meth_set_read_ex(METHOD* biom, function int(bio_st*, char8*, uint, uint*) bread);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1873,7 +1873,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_puts")
 		]
-		public extern static int meth_set_puts(METHOD* biom, function int(bio_st*, char8*) puts);
+		public extern static bool meth_set_puts(METHOD* biom, function int(bio_st*, char8*) puts);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1887,7 +1887,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_gets")
 		]
-		public extern static int meth_set_gets(METHOD* biom, function int(bio_st*, char8*, int) gets);
+		public extern static bool meth_set_gets(METHOD* biom, function int(bio_st*, char8*, int) gets);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1901,7 +1901,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_ctrl")
 		]
-		public extern static int meth_set_ctrl(METHOD* biom, function int(bio_st*, int, int, void*) ctrl);
+		public extern static bool meth_set_ctrl(METHOD* biom, function bool(bio_st*, int, int, void*) ctrl);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1915,7 +1915,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_create")
 		]
-		public extern static int meth_set_create(METHOD* biom, function int(bio_st*) create);
+		public extern static bool meth_set_create(METHOD* biom, function int(bio_st*) create);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1929,7 +1929,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_destroy")
 		]
-		public extern static int meth_set_destroy(METHOD* biom, function int(bio_st*) destroy);
+		public extern static bool meth_set_destroy(METHOD* biom, function int(bio_st*) destroy);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1943,7 +1943,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("BIO_meth_set_callback_ctrl")
 		]
-		public extern static int meth_set_callback_ctrl(METHOD* biom, function int(bio_st*, int, info_cb*) callback_ctrl);
+		public extern static bool meth_set_callback_ctrl(METHOD* biom, function int(bio_st*, int, info_cb*) callback_ctrl);
 
 #if CONST_STRICT
 		[
