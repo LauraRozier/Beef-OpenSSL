@@ -57,8 +57,8 @@ namespace Beef_OpenSSL
 		 *
 		 * (Prior to 0.9.3-dev a different scheme was used: 0.9.2b is 0x0922.) (Prior to 0.9.5a beta1, a different scheme was used: MMNNFFRBB for major minor fix final patch/beta)
 		 */
-		public const int VERSION_NUMBER  = 0x1010108FL;
-		public const char8* VERSION_TEXT = "OpenSSL 1.1.1h  22 Sep 2020";
+		public const int VERSION_NUMBER  = 0x101010AFL;
+		public const char8* VERSION_TEXT = "OpenSSL 1.1.1j  16 Feb 2021";
 
 		public const int MIN_API         = 0;
 		public const int API_COMPAT      = MIN_API;

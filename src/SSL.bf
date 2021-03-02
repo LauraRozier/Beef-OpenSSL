@@ -1273,12 +1273,12 @@ namespace Beef_OpenSSL
 		 * Reserved value (until OpenSSL 1.2.0)                  0x00000002U
 		 */
 		/* Allow initial connection to servers that don't support RI */
-		public const int OP_LEGACY_SERVER_CONNECT                  = 0x00000004U;
+		public const uint OP_LEGACY_SERVER_CONNECT                  = 0x00000004U;
 
 		/* Reserved value (until OpenSSL 1.2.0)                = 0x00000008U */
-		public const int OP_TLSEXT_PADDING                         = 0x00000010U;
+		public const uint OP_TLSEXT_PADDING                         = 0x00000010U;
 		/* Reserved value (until OpenSSL 1.2.0)                = 0x00000020U */
-		public const int OP_SAFARI_ECDHE_ECDSA_BUG                 = 0x00000040U;
+		public const uint OP_SAFARI_ECDHE_ECDSA_BUG                 = 0x00000040U;
 		/*
 		 * Reserved value (until OpenSSL 1.2.0)                  0x00000080U
 		 * Reserved value (until OpenSSL 1.2.0)                  0x00000100U
@@ -1286,7 +1286,7 @@ namespace Beef_OpenSSL
 		 */
 
 		/* In TLSv1.3 allow a non-(ec)dhe based kex_mode */
-		public const int OP_ALLOW_NO_DHE_KEX                       = 0x00000400U;
+		public const uint OP_ALLOW_NO_DHE_KEX                       = 0x00000400U;
 
 		/*
 		 * Disable SSL 3.0/TLS 1.0 CBC vulnerability workaround that was added in
@@ -1295,111 +1295,111 @@ namespace Beef_OpenSSL
 		 * implementations cannot handle it at all, which is why we include it in
 		 * SSL_OP_ALL. Added in 0.9.6e
 		 */
-		public const int OP_DONT_INSERT_EMPTY_FRAGMENTS            = 0x00000800U;
+		public const uint OP_DONT_INSERT_EMPTY_FRAGMENTS            = 0x00000800U;
 
 		/* DTLS options */
-		public const int OP_NO_QUERY_MTU                           = 0x00001000U;
+		public const uint OP_NO_QUERY_MTU                           = 0x00001000U;
 		/* Turn on Cookie Exchange (on relevant for servers) */
-		public const int OP_COOKIE_EXCHANGE                        = 0x00002000U;
+		public const uint OP_COOKIE_EXCHANGE                        = 0x00002000U;
 		/* Don't use RFC4507 ticket extension */
-		public const int OP_NO_TICKET                              = 0x00004000U;
+		public const uint OP_NO_TICKET                              = 0x00004000U;
 #if !OPENSSL_NO_DTLS1_METHOD
 		/* Use Cisco's "speshul" version of DTLS.BAD_VER (only with deprecated DTLSv1.client_method()) */
-		public const int OP_CISCO_ANYCONNECT                       = 0x00008000U;
+		public const uint OP_CISCO_ANYCONNECT                       = 0x00008000U;
 #endif
 
 		/* As server, disallow session resumption on renegotiation */
-		public const int OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION = 0x00010000U;
+		public const uint OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION = 0x00010000U;
 		/* Don't use compression even if supported */
-		public const int OP_NO_COMPRESSION                         = 0x00020000U;
+		public const uint OP_NO_COMPRESSION                         = 0x00020000U;
 		/* Permit unsafe legacy renegotiation */
-		public const int OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION      = 0x00040000U;
+		public const uint OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION      = 0x00040000U;
 		/* Disable encrypt-then-mac */
-		public const int OP_NO_ENCRYPT_THEN_MAC                    = 0x00080000U;
+		public const uint OP_NO_ENCRYPT_THEN_MAC                    = 0x00080000U;
 
 		/* Enable TLSv1.3 Compatibility mode. This is on by default. A future version of OpenSSL may have this disabled by default. */
-		public const int OP_ENABLE_MIDDLEBOX_COMPAT                = 0x00100000U;
+		public const uint OP_ENABLE_MIDDLEBOX_COMPAT                = 0x00100000U;
 
 		/* Prioritize Chacha20Poly1305 when client does. Modifies OP_CIPHER_SERVER_PREFERENCE */
-		public const int OP_PRIORITIZE_CHACHA                      = 0x00200000U;
+		public const uint OP_PRIORITIZE_CHACHA                      = 0x00200000U;
 
 		/* Set on servers to choose the cipher according to the server's preferences */
-		public const int OP_CIPHER_SERVER_PREFERENCE               = 0x00400000U;
+		public const uint OP_CIPHER_SERVER_PREFERENCE               = 0x00400000U;
 		/*
 		 * If set, a server will allow a client to issue a SSLv3.0 version number as latest version supported in the premaster secret, even when TLSv1.0 (version 3.1) was announced in the client hello. Normally this is
 		 * forbidden to prevent version rollback attacks.
 		 */
-		public const int OP_TLS_ROLLBACK_BUG                       = 0x00800000U;
+		public const uint OP_TLS_ROLLBACK_BUG                       = 0x00800000U;
 
 		/* Switches off automatic TLSv1.3 anti-replay protection for early data. This is a server-side option only (no effect on the client). */
-		public const int OP_NO_ANTI_REPLAY                         = 0x01000000U;
+		public const uint OP_NO_ANTI_REPLAY                         = 0x01000000U;
 
-		public const int OP_NO_SSLv3                               = 0x02000000U;
-		public const int OP_NO_TLSv1                               = 0x04000000U;
-		public const int OP_NO_TLSv1_2                             = 0x08000000U;
-		public const int OP_NO_TLSv1_1                             = 0x10000000U;
-		public const int OP_NO_TLSv1_3                             = 0x20000000U;
+		public const uint OP_NO_SSLv3                               = 0x02000000U;
+		public const uint OP_NO_TLSv1                               = 0x04000000U;
+		public const uint OP_NO_TLSv1_2                             = 0x08000000U;
+		public const uint OP_NO_TLSv1_1                             = 0x10000000U;
+		public const uint OP_NO_TLSv1_3                             = 0x20000000U;
 
-		public const int OP_NO_DTLSv1                              = 0x04000000U;
-		public const int OP_NO_DTLSv1_2                            = 0x08000000U;
+		public const uint OP_NO_DTLSv1                              = 0x04000000U;
+		public const uint OP_NO_DTLSv1_2                            = 0x08000000U;
 
-		public const int OP_NO_SSL_MASK                            = OP_NO_SSLv3 | OP_NO_TLSv1 | OP_NO_TLSv1_1 | OP_NO_TLSv1_2 | OP_NO_TLSv1_3;
-		public const int OP_NO_DTLS_MASK                           = OP_NO_DTLSv1 | OP_NO_DTLSv1_2;
+		public const uint OP_NO_SSL_MASK                            = OP_NO_SSLv3 | OP_NO_TLSv1 | OP_NO_TLSv1_1 | OP_NO_TLSv1_2 | OP_NO_TLSv1_3;
+		public const uint OP_NO_DTLS_MASK                           = OP_NO_DTLSv1 | OP_NO_DTLSv1_2;
 
 		/* Disallow all renegotiation */
-		public const int OP_NO_RENEGOTIATION                       = 0x40000000U;
+		public const uint OP_NO_RENEGOTIATION                       = 0x40000000U;
 
 		/* Make server add server-hello extension from early version of cryptopro draft, when GOST ciphersuite is negotiated. Required for interoperability with CryptoPro CSP 3.x */
-		public const int OP_CRYPTOPRO_TLSEXT_BUG                   = 0x80000000U;
+		public const uint OP_CRYPTOPRO_TLSEXT_BUG                   = 0x80000000U;
 
 		/*
 		 * SSL_OP_ALL: various bug workarounds that should be rather harmless.
 		 * This used to be 0x000FFFFFL before 0.9.7.
 		 * This used to be 0x80000BFFU before 1.1.1.
 		 */
-		public const int OP_ALL = OP_CRYPTOPRO_TLSEXT_BUG | OP_DONT_INSERT_EMPTY_FRAGMENTS | OP_LEGACY_SERVER_CONNECT | OP_TLSEXT_PADDING | OP_SAFARI_ECDHE_ECDSA_BUG;
+		public const uint OP_ALL = OP_CRYPTOPRO_TLSEXT_BUG | OP_DONT_INSERT_EMPTY_FRAGMENTS | OP_LEGACY_SERVER_CONNECT | OP_TLSEXT_PADDING | OP_SAFARI_ECDHE_ECDSA_BUG;
 
 		/* OBSOLETE OPTIONS: retained for compatibility */
 
 		/* Removed from OpenSSL 1.1.0. Was 0x00000001L */
 		/* Related to removed SSLv2. */
-		public const int OP_MICROSOFT_SESS_ID_BUG                  = 0x0;
+		public const uint OP_MICROSOFT_SESS_ID_BUG                  = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00000002L */
 		/* Related to removed SSLv2. */
-		public const int OP_NETSCAPE_CHALLENGE_BUG                 = 0x0;
+		public const uint OP_NETSCAPE_CHALLENGE_BUG                 = 0x0;
 		/* Removed from OpenSSL 0.9.8q and 1.0.0c. Was 0x00000008L */
 		/* Dead forever, see CVE-2010-4180 */
-		public const int OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG       = 0x0;
+		public const uint OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG       = 0x0;
 		/* Removed from OpenSSL 1.0.1h and 1.0.2. Was 0x00000010L */
 		/* Refers to ancient SSLREF and SSLv2. */
-		public const int OP_SSLREF2_REUSE_CERT_TYPE_BUG            = 0x0;
+		public const uint OP_SSLREF2_REUSE_CERT_TYPE_BUG            = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00000020 */
-		public const int OP_MICROSOFT_BIG_SSLV3_BUFFER             = 0x0;
+		public const uint OP_MICROSOFT_BIG_SSLV3_BUFFER             = 0x0;
 		/* Removed from OpenSSL 0.9.7h and 0.9.8b. Was 0x00000040L */
-		public const int OP_MSIE_SSLV2_RSA_PADDING                 = 0x0;
+		public const uint OP_MSIE_SSLV2_RSA_PADDING                 = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00000080 */
 		/* Ancient SSLeay version. */
-		public const int OP_SSLEAY_080_CLIENT_DH_BUG               = 0x0;
+		public const uint OP_SSLEAY_080_CLIENT_DH_BUG               = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00000100L */
-		public const int OP_TLS_D5_BUG                             = 0x0;
+		public const uint OP_TLS_D5_BUG                             = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00000200L */
-		public const int OP_TLS_BLOCK_PADDING_BUG                  = 0x0;
+		public const uint OP_TLS_BLOCK_PADDING_BUG                  = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00080000L */
-		public const int OP_SINGLE_ECDH_USE                        = 0x0;
+		public const uint OP_SINGLE_ECDH_USE                        = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x00100000L */
-		public const int OP_SINGLE_DH_USE                          = 0x0;
+		public const uint OP_SINGLE_DH_USE                          = 0x0;
 		/* Removed from OpenSSL 1.0.1k and 1.0.2. Was 0x00200000L */
-		public const int OP_EPHEMERAL_RSA                          = 0x0;
+		public const uint OP_EPHEMERAL_RSA                          = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x01000000L */
-		public const int OP_NO_SSLv2                               = 0x0;
+		public const uint OP_NO_SSLv2                               = 0x0;
 		/* Removed from OpenSSL 1.0.1. Was 0x08000000L */
-		public const int OP_PKCS1_CHECK_1                          = 0x0;
+		public const uint OP_PKCS1_CHECK_1                          = 0x0;
 		/* Removed from OpenSSL 1.0.1. Was 0x10000000L */
-		public const int OP_PKCS1_CHECK_2                          = 0x0;
+		public const uint OP_PKCS1_CHECK_2                          = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x20000000L */
-		public const int OP_NETSCAPE_CA_DN_BUG                     = 0x0;
+		public const uint OP_NETSCAPE_CA_DN_BUG                     = 0x0;
 		/* Removed from OpenSSL 1.1.0. Was 0x40000000L */
-		public const int OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG        = 0x0;
+		public const uint OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG        = 0x0;
 
 		/* Allow write(..., n) to return r with 0 < r < n (i.e. report success when just a single record has been written): */
 		public const int MODE_ENABLE_PARTIAL_WRITE       = 0x00000001U;
@@ -5873,61 +5873,61 @@ namespace Beef_OpenSSL
 
 		/* What the "other" parameter contains in security callback */
 		/* Mask for type */
-		public const int SECOP_OTHER_TYPE   = 0xffff0000;
-		public const int SECOP_OTHER_NONE   = 0;
-		public const int SECOP_OTHER_CIPHER = 1 << 16;
-		public const int SECOP_OTHER_CURVE  = 2 << 16;
-		public const int SECOP_OTHER_DH     = 3 << 16;
-		public const int SECOP_OTHER_PKEY   = 4 << 16;
-		public const int SECOP_OTHER_SIGALG = 5 << 16;
-		public const int SECOP_OTHER_CERT   = 6 << 16;
+		public const uint SECOP_OTHER_TYPE   = 0xffff0000;
+		public const uint SECOP_OTHER_NONE   = 0;
+		public const uint SECOP_OTHER_CIPHER = 1 << 16;
+		public const uint SECOP_OTHER_CURVE  = 2 << 16;
+		public const uint SECOP_OTHER_DH     = 3 << 16;
+		public const uint SECOP_OTHER_PKEY   = 4 << 16;
+		public const uint SECOP_OTHER_SIGALG = 5 << 16;
+		public const uint SECOP_OTHER_CERT   = 6 << 16;
 
 		/* Indicated operation refers to peer key or certificate */
-		public const int SECOP_PEER         = 0x1000;
+		public const uint SECOP_PEER         = 0x1000;
 
 		/* Values for "op" parameter in security callback */
 
 		/* Called to filter ciphers */
 		/* Ciphers client supports */
-		public const int SECOP_CIPHER_SUPPORTED = 1 | SECOP_OTHER_CIPHER;
+		public const uint SECOP_CIPHER_SUPPORTED = 1 | SECOP_OTHER_CIPHER;
 		/* Cipher shared by client/server */
-		public const int SECOP_CIPHER_SHARED    = 2 | SECOP_OTHER_CIPHER;
+		public const uint SECOP_CIPHER_SHARED    = 2 | SECOP_OTHER_CIPHER;
 		/* Sanity check of cipher server selects */
-		public const int SECOP_CIPHER_CHECK     = 3 | SECOP_OTHER_CIPHER;
+		public const uint SECOP_CIPHER_CHECK     = 3 | SECOP_OTHER_CIPHER;
 		/* Curves supported by client */
-		public const int SECOP_CURVE_SUPPORTED  = 4 | SECOP_OTHER_CURVE;
+		public const uint SECOP_CURVE_SUPPORTED  = 4 | SECOP_OTHER_CURVE;
 		/* Curves shared by client/server */
-		public const int SECOP_CURVE_SHARED     = 5 | SECOP_OTHER_CURVE;
+		public const uint SECOP_CURVE_SHARED     = 5 | SECOP_OTHER_CURVE;
 		/* Sanity check of curve server selects */
-		public const int SECOP_CURVE_CHECK      = 6 | SECOP_OTHER_CURVE;
+		public const uint SECOP_CURVE_CHECK      = 6 | SECOP_OTHER_CURVE;
 		/* Temporary DH key */
-		public const int SECOP_TMP_DH           = 7 | SECOP_OTHER_PKEY;
+		public const uint SECOP_TMP_DH           = 7 | SECOP_OTHER_PKEY;
 		/* SSL/TLS version */
-		public const int SECOP_VERSION          = 9 | SECOP_OTHER_NONE;
+		public const uint SECOP_VERSION          = 9 | SECOP_OTHER_NONE;
 		/* Session tickets */
-		public const int SECOP_TICKET           = 10 | SECOP_OTHER_NONE;
+		public const uint SECOP_TICKET           = 10 | SECOP_OTHER_NONE;
 		/* Supported signature algorithms sent to peer */
-		public const int SECOP_SIGALG_SUPPORTED = 11 | SECOP_OTHER_SIGALG;
+		public const uint SECOP_SIGALG_SUPPORTED = 11 | SECOP_OTHER_SIGALG;
 		/* Shared signature algorithm */
-		public const int SECOP_SIGALG_SHARED    = 12 | SECOP_OTHER_SIGALG;
+		public const uint SECOP_SIGALG_SHARED    = 12 | SECOP_OTHER_SIGALG;
 		/* Sanity check signature algorithm allowed */
-		public const int SECOP_SIGALG_CHECK     = 13 | SECOP_OTHER_SIGALG;
+		public const uint SECOP_SIGALG_CHECK     = 13 | SECOP_OTHER_SIGALG;
 		/* Used to get mask of supported public key signature algorithms */
-		public const int SECOP_SIGALG_MASK      = 14 | SECOP_OTHER_SIGALG;
+		public const uint SECOP_SIGALG_MASK      = 14 | SECOP_OTHER_SIGALG;
 		/* Use to see if compression is allowed */
-		public const int SECOP_COMPRESSION      = 15 | SECOP_OTHER_NONE;
+		public const uint SECOP_COMPRESSION      = 15 | SECOP_OTHER_NONE;
 		/* EE key in certificate */
-		public const int SECOP_EE_KEY           = 16 | SECOP_OTHER_CERT;
+		public const uint SECOP_EE_KEY           = 16 | SECOP_OTHER_CERT;
 		/* CA key in certificate */
-		public const int SECOP_CA_KEY           = 17 | SECOP_OTHER_CERT;
+		public const uint SECOP_CA_KEY           = 17 | SECOP_OTHER_CERT;
 		/* CA digest algorithm in certificate */
-		public const int SECOP_CA_MD            = 18 | SECOP_OTHER_CERT;
+		public const uint SECOP_CA_MD            = 18 | SECOP_OTHER_CERT;
 		/* Peer EE key in certificate */
-		public const int SECOP_PEER_EE_KEY      = SECOP_EE_KEY | SECOP_PEER;
+		public const uint SECOP_PEER_EE_KEY      = SECOP_EE_KEY | SECOP_PEER;
 		/* Peer CA key in certificate */
-		public const int SECOP_PEER_CA_KEY      = SECOP_CA_KEY | SECOP_PEER;
+		public const uint SECOP_PEER_CA_KEY      = SECOP_CA_KEY | SECOP_PEER;
 		/* Peer CA digest algorithm in certificate */
-		public const int SECOP_PEER_CA_MD       = SECOP_CA_MD | SECOP_PEER;
+		public const uint SECOP_PEER_CA_MD       = SECOP_CA_MD | SECOP_PEER;
 
 		[
 #if !OPENSSL_LINK_STATIC

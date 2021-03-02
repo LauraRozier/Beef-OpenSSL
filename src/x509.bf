@@ -806,15 +806,13 @@ namespace Beef_OpenSSL
 		public typealias SCRYPT_PARAMS = SCRYPT_PARAMS_st;
 #endif
 
-		public struct stack_st_POLICYQUALINFO {}
-
 		[CRepr]
 		public struct POLICY_DATA_st
 		{
 		    public uint flags;
 		    /* Policy OID and qualifiers for this data */
 		    public ASN1.OBJECT* valid_policy;
-		    public stack_st_POLICYQUALINFO* qualifier_set;
+		    public X509v3.stack_st_POLICYQUALINFO* qualifier_set;
 		    public ASN1.stack_st_ASN1_OBJECT* expected_policy_set;
 		}
 		public typealias POLICY_DATA = POLICY_DATA_st;
@@ -892,6 +890,86 @@ namespace Beef_OpenSSL
 
 		public const int EXT_PACK_UNKNOWN = 1;
 		public const int EXT_PACK_STRING  = 2;
+
+		[CRepr]
+		public struct purpose_st
+		{
+		    public int purpose;
+		    public int trust;                  /* Default trust ID */
+		    public int flags;
+		    public function int(purpose_st* p, x509_st* s, int i) check_purpose;
+		    public char8* name;
+		    public char8* sname;
+		    public void* usr_data;
+		}
+		public typealias PURPOSE = purpose_st;
+		public struct stack_st_X509_PURPOSE {}
+		
+		/* X509_PURPOSE stuff */
+		public const int EXFLAG_BCONS          = 0x1;
+		public const int EXFLAG_KUSAGE         = 0x2;
+		public const int EXFLAG_XKUSAGE        = 0x4;
+		public const int EXFLAG_NSCERT         = 0x8;
+
+		public const int EXFLAG_CA             = 0x10;
+		/* Really self issued not necessarily self signed */
+		public const int EXFLAG_SI             = 0x20;
+		public const int EXFLAG_V1             = 0x40;
+		public const int EXFLAG_INVALID        = 0x80;
+		/* EXFLAG_SET is set to indicate that some values have been precomputed */
+		public const int EXFLAG_SET            = 0x100;
+		public const int EXFLAG_CRITICAL       = 0x200;
+		public const int EXFLAG_PROXY          = 0x400;
+
+		public const int EXFLAG_INVALID_POLICY = 0x800;
+		public const int EXFLAG_FRESHEST       = 0x1000;
+		/* Self signed */
+		public const int EXFLAG_SS             = 0x2000;
+
+		public const int KU_DIGITAL_SIGNATURE = 0x0080;
+		public const int KU_NON_REPUDIATION   = 0x0040;
+		public const int KU_KEY_ENCIPHERMENT  = 0x0020;
+		public const int KU_DATA_ENCIPHERMENT = 0x0010;
+		public const int KU_KEY_AGREEMENT     = 0x0008;
+		public const int KU_KEY_CERT_SIGN     = 0x0004;
+		public const int KU_CRL_SIGN          = 0x0002;
+		public const int KU_ENCIPHER_ONLY     = 0x0001;
+		public const int KU_DECIPHER_ONLY     = 0x8000;
+
+		public const int NS_SSL_CLIENT = 0x80;
+		public const int NS_SSL_SERVER = 0x40;
+		public const int NS_SMIME      = 0x20;
+		public const int NS_OBJSIGN    = 0x10;
+		public const int NS_SSL_CA     = 0x04;
+		public const int NS_SMIME_CA   = 0x02;
+		public const int NS_OBJSIGN_CA = 0x01;
+		public const int NS_ANY_CA     = NS_SSL_CA | NS_SMIME_CA | NS_OBJSIGN_CA;
+
+		public const int XKU_SSL_SERVER = 0x1;
+		public const int XKU_SSL_CLIENT = 0x2;
+		public const int XKU_SMIME      = 0x4;
+		public const int XKU_CODE_SIGN  = 0x8;
+		public const int XKU_SGC        = 0x10;
+		public const int XKU_OCSP_SIGN  = 0x20;
+		public const int XKU_TIMESTAMP  = 0x40;
+		public const int XKU_DVCS       = 0x80;
+		public const int XKU_ANYEKU     = 0x100;
+		
+		public const int PURPOSE_DYNAMIC      = 0x1;
+		public const int PURPOSE_DYNAMIC_NAME = 0x2;
+
+		public const int PURPOSE_SSL_CLIENT     = 1;
+		public const int PURPOSE_SSL_SERVER     = 2;
+		public const int PURPOSE_NS_SSL_SERVER  = 3;
+		public const int PURPOSE_SMIME_SIGN     = 4;
+		public const int PURPOSE_SMIME_ENCRYPT  = 5;
+		public const int PURPOSE_CRL_SIGN       = 6;
+		public const int PURPOSE_ANY            = 7;
+		public const int PURPOSE_OCSP_HELPER    = 8;
+		public const int PURPOSE_TIMESTAMP_SIGN = 9;
+
+		public const int PURPOSE_MIN = 1;
+		public const int PURPOSE_MAX = 9;
 
 		[Inline]
 		public static EVP.PKEY* extract_key(x509_st* x) => get_pubkey(x); /*****/
@@ -3749,6 +3827,92 @@ namespace Beef_OpenSSL
 		}
 		public typealias OTHERNAME = otherName_st;
 
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("OTHERNAME_new")
+		]
+		public extern static OTHERNAME* OTHERNAME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("OTHERNAME_free")
+		]
+		public extern static void OTHERNAME_free(OTHERNAME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_OTHERNAME")
+		]
+		public extern static OTHERNAME* d2i_OTHERNAME(OTHERNAME** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_OTHERNAME")
+		]
+		public extern static int i2d_OTHERNAME(OTHERNAME* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("OTHERNAME_it")
+		]
+		public extern static ASN1.ITEM* OTHERNAME_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("OTHERNAME_cmp")
+		]
+		public extern static int OTHERNAME_cmp(OTHERNAME* a, OTHERNAME* b);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_set0_value")
+		]
+		public extern static void GENERAL_NAME_set0_value(GENERAL_NAME* a, int type, void* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_get0_value")
+		]
+		public extern static void* GENERAL_NAME_get0_value(GENERAL_NAME* a, int* ptype);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_set0_othername")
+		]
+		public extern static int GENERAL_NAME_set0_othername(GENERAL_NAME* gen, ASN1.OBJECT* oid, ASN1.TYPE* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_get0_otherName")
+		]
+		public extern static int GENERAL_NAME_get0_otherName(GENERAL_NAME* gen, ASN1.OBJECT** poid, ASN1.TYPE** pvalue);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2s_ASN1_OCTET_STRING")
+		]
+		public extern static char8* i2s_ASN1_OCTET_STRING(EXT_METHOD* method, ASN1.OCTET_STRING* ia5);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("s2i_ASN1_OCTET_STRING")
+		]
+		public extern static ASN1.OCTET_STRING* s2i_ASN1_OCTET_STRING(EXT_METHOD* method, CTX* ctx, char8* str);
+
 		[CRepr]
 		public struct EDIPartyName_st
 		{
@@ -3756,6 +3920,42 @@ namespace Beef_OpenSSL
 		    public ASN1.STRING* partyName;
 		}
 		public typealias EDIPARTYNAME = EDIPartyName_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EDIPARTYNAME_new")
+		]
+		public extern static EDIPARTYNAME* EDIPARTYNAME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EDIPARTYNAME_free")
+		]
+		public extern static void EDIPARTYNAME_free(EDIPARTYNAME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_EDIPARTYNAME")
+		]
+		public extern static EDIPARTYNAME* d2i_EDIPARTYNAME(EDIPARTYNAME** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_EDIPARTYNAME")
+		]
+		public extern static int i2d_EDIPARTYNAME(EDIPARTYNAME* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EDIPARTYNAME_it")
+		]
+		public extern static ASN1.ITEM* EDIPARTYNAME_it();
 
 		[CRepr]
 		public struct GENERAL_NAME_st
@@ -3794,8 +3994,298 @@ namespace Beef_OpenSSL
 		    }
 		}
 		public typealias GENERAL_NAME = GENERAL_NAME_st;
+		public struct stack_st_GENERAL_NAME {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_new")
+		]
+		public extern static GENERAL_NAME* GENERAL_NAME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_free")
+		]
+		public extern static void GENERAL_NAME_free(GENERAL_NAME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_GENERAL_NAME")
+		]
+		public extern static GENERAL_NAME* d2i_GENERAL_NAME(GENERAL_NAME** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_GENERAL_NAME")
+		]
+		public extern static int i2d_GENERAL_NAME(GENERAL_NAME* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_it")
+		]
+		public extern static ASN1.ITEM* GENERAL_NAME_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_dup")
+		]
+		public extern static GENERAL_NAME* GENERAL_NAME_dup(GENERAL_NAME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_cmp")
+		]
+		public extern static int GENERAL_NAME_cmp(GENERAL_NAME* a, GENERAL_NAME* b);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("a2i_GENERAL_NAME")
+		]
+		public extern static GENERAL_NAME* a2i_GENERAL_NAME(GENERAL_NAME* outVal, EXT_METHOD* method, CTX* ctx, int gen_type, char8* value, int is_nc);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("v2i_GENERAL_NAME")
+		]
+		public extern static GENERAL_NAME* v2i_GENERAL_NAME(EXT_METHOD* method, CTX* ctx, Conf.VALUE* cnf);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("v2i_GENERAL_NAME_ex")
+		]
+		public extern static GENERAL_NAME* v2i_GENERAL_NAME_ex(GENERAL_NAME* outVal, EXT_METHOD* method, CTX* ctx, Conf.VALUE* cnf, int is_nc);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_conf_free")
+		]
+		public extern static void conf_free(Conf.VALUE* val);
+		
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_nconf_nid")
+		]
+		public extern static X509.EXTENSION* EXT_nconf_nid(Conf.conf_st* conf, CTX* ctx, int ext_nid, char8* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_nconf")
+		]
+		public extern static X509.EXTENSION* EXT_nconf(Conf.conf_st* conf, CTX* ctx, char8* name, char8* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_add_nconf_sk")
+		]
+		public extern static int EXT_add_nconf_sk(Conf.conf_st* conf, CTX* ctx, char8* section, X509.stack_st_X509_EXTENSION** sk);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_add_nconf")
+		]
+		public extern static int EXT_add_nconf(Conf.conf_st* conf, CTX* ctx, char8* section, X509.x509_st* cert);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_REQ_add_nconf")
+		]
+		public extern static int EXT_REQ_add_nconf(Conf.conf_st* conf, CTX* ctx, char8* section, X509.REQ* req);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_CRL_add_nconf")
+		]
+		public extern static int EXT_CRL_add_nconf(Conf.conf_st* conf, CTX* ctx, char8* section, X509.CRL* crl);
+		
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_conf_nid")
+		]
+		public extern static X509.EXTENSION* EXT_conf_nid(Conf.lhash_st_CONF_VALUE* conf, CTX* ctx, int ext_nid, char8* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_conf")
+		]
+		public extern static X509.EXTENSION* EXT_conf(Conf.lhash_st_CONF_VALUE* conf, CTX* ctx, char8* name, char8* value);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_add_conf")
+		]
+		public extern static int EXT_add_conf(Conf.lhash_st_CONF_VALUE* conf, CTX* ctx, char8* section, X509* cert);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_REQ_add_conf")
+		]
+		public extern static int EXT_REQ_add_conf(Conf.lhash_st_CONF_VALUE* conf, CTX* ctx, char8* section, X509.REQ* req);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_EXT_CRL_add_conf")
+		]
+		public extern static int EXT_CRL_add_conf(Conf.lhash_st_CONF_VALUE* conf, CTX* ctx, char8* section, X509.CRL* crl);
+		
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_add_value_bool_nf")
+		]
+		public extern static int add_value_bool_nf(char8* name, int asn1_bool, Conf.stack_st_CONF_VALUE** extlist);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_get_value_bool")
+		]
+		public extern static int get_value_bool(Conf.VALUE* value, int* asn1_bool);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_get_value_int")
+		]
+		public extern static int get_value_int(Conf.VALUE* value, ASN1.INTEGER** aint);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_set_nconf")
+		]
+		public extern static void set_nconf(CTX* ctx, Conf.conf_st* conf);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509V3_set_conf_lhash")
+		]
+		public extern static void set_conf_lhash(CTX* ctx, Conf.lhash_st_CONF_VALUE* lhash);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("v2i_ASN1_BIT_STRING")
+		]
+		public extern static ASN1.BIT_STRING* v2i_ASN1_BIT_STRING(EXT_METHOD* method, CTX* ctx, Conf.stack_st_CONF_VALUE* nval);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2v_ASN1_BIT_STRING")
+		]
+		public extern static Conf.stack_st_CONF_VALUE* i2v_ASN1_BIT_STRING(EXT_METHOD* method, ASN1.BIT_STRING* bits, Conf.stack_st_CONF_VALUE* extlist);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2s_ASN1_IA5STRING")
+		]
+		public extern static char8* i2s_ASN1_IA5STRING(EXT_METHOD* method, ASN1.IA5STRING* ia5);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("s2i_ASN1_IA5STRING")
+		]
+		public extern static ASN1.IA5STRING* s2i_ASN1_IA5STRING(EXT_METHOD* method, CTX* ctx, char8* str);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2v_GENERAL_NAME")
+		]
+		public extern static Conf.stack_st_CONF_VALUE* i2v_GENERAL_NAME(EXT_METHOD* method, GENERAL_NAME* gen, Conf.stack_st_CONF_VALUE* ret);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAME_print")
+		]
+		public extern static int GENERAL_NAME_print(BIO.bio_st* outVal, GENERAL_NAME* gen);
+
+		public typealias GENERAL_NAMES = stack_st_GENERAL_NAME;
 		public struct stack_st_GENERAL_NAMES {}
-		public typealias GENERAL_NAMES = stack_st_GENERAL_NAMES;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAMES_new")
+		]
+		public extern static GENERAL_NAMES* GENERAL_NAMES_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAMES_free")
+		]
+		public extern static void GENERAL_NAMES_free(GENERAL_NAMES* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_GENERAL_NAMES")
+		]
+		public extern static GENERAL_NAMES* d2i_GENERAL_NAMES(GENERAL_NAMES** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_GENERAL_NAMES")
+		]
+		public extern static int i2d_GENERAL_NAMES(GENERAL_NAMES* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_NAMES_it")
+		]
+		public extern static ASN1.ITEM* GENERAL_NAMES_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2v_GENERAL_NAMES")
+		]
+		public extern static Conf.stack_st_CONF_VALUE* i2v_GENERAL_NAMES(EXT_METHOD* method, GENERAL_NAMES* gen, Conf.stack_st_CONF_VALUE* extlist);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("v2i_GENERAL_NAMES")
+		]
+		public extern static GENERAL_NAMES* v2i_GENERAL_NAMES(EXT_METHOD* method, CTX* ctx, Conf.stack_st_CONF_VALUE* nval);
 
 		[CRepr]
 		public struct AUTHORITY_KEYID_st
@@ -3805,6 +4295,562 @@ namespace Beef_OpenSSL
 		    public ASN1.INTEGER* serial;
 		}
 		public typealias AUTHORITY_KEYID = AUTHORITY_KEYID_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_KEYID_new")
+		]
+		public extern static AUTHORITY_KEYID* AUTHORITY_KEYID_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_KEYID_free")
+		]
+		public extern static void AUTHORITY_KEYID_free(AUTHORITY_KEYID* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_AUTHORITY_KEYID")
+		]
+		public extern static AUTHORITY_KEYID* d2i_AUTHORITY_KEYID(AUTHORITY_KEYID** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_AUTHORITY_KEYID")
+		]
+		public extern static int i2d_AUTHORITY_KEYID(AUTHORITY_KEYID* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_KEYID_it")
+		]
+		public extern static ASN1.ITEM* AUTHORITY_KEYID_it();
+
+		/* Strong extranet structures */
+		[CRepr]
+		public struct SXNET_ID_st
+		{
+		    public ASN1.INTEGER* zone;
+		    public ASN1.OCTET_STRING* user;
+		}
+		public typealias SXNETID = SXNET_ID_st;
+		public struct stack_st_SXNETID {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNETID_new")
+		]
+		public extern static SXNETID* SXNETID_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNETID_free")
+		]
+		public extern static void SXNETID_free(SXNETID* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_SXNETID")
+		]
+		public extern static SXNETID* d2i_SXNETID(SXNETID** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_SXNETID")
+		]
+		public extern static int i2d_SXNETID(SXNETID* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNETID_it")
+		]
+		public extern static ASN1.ITEM* SXNETID_it();
+
+		[CRepr]
+		public struct SXNET_st
+		{
+		    public ASN1.INTEGER* version;
+		    public stack_st_SXNETID* ids;
+		}
+		public typealias SXNET = SXNET_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_new")
+		]
+		public extern static SXNET* SXNET_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_free")
+		]
+		public extern static void SXNET_free(SXNET* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_SXNET")
+		]
+		public extern static SXNET* d2i_SXNET(SXNET** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_SXNET")
+		]
+		public extern static int i2d_SXNET(SXNET* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_it")
+		]
+		public extern static ASN1.ITEM* SXNET_it();
+
+		
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_add_id_asc")
+		]
+		public extern static int SXNET_add_id_asc(SXNET** psx, char8* zone, char8* user, int userlen);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_add_id_ulong")
+		]
+		public extern static int SXNET_add_id_ulong(SXNET** psx, uint32 lzone, char8* user, int userlen);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_add_id_INTEGER")
+		]
+		public extern static int SXNET_add_id_INTEGER(SXNET** psx, ASN1.INTEGER* izone, char8* user, int userlen);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_get_id_asc")
+		]
+		public extern static ASN1.OCTET_STRING* SXNET_get_id_asc(SXNET* sx, char8* zone);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_get_id_ulong")
+		]
+		public extern static ASN1.OCTET_STRING* SXNET_get_id_ulong(SXNET* sx, uint32 lzone);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("SXNET_get_id_INTEGER")
+		]
+		public extern static ASN1.OCTET_STRING* SXNET_get_id_INTEGER(SXNET* sx, ASN1.INTEGER* zone);
+
+		[CRepr]
+		public struct NOTICEREF_st
+		{
+		    public ASN1.STRING* organization;
+		    public ASN1.stack_st_ASN1_INTEGER* noticenos;
+		}
+		public typealias NOTICEREF = NOTICEREF_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NOTICEREF_new")
+		]
+		public extern static NOTICEREF* NOTICEREF_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NOTICEREF_free")
+		]
+		public extern static void NOTICEREF_free(NOTICEREF* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_NOTICEREF")
+		]
+		public extern static NOTICEREF* d2i_NOTICEREF(NOTICEREF** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_NOTICEREF")
+		]
+		public extern static int i2d_NOTICEREF(NOTICEREF* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NOTICEREF_it")
+		]
+		public extern static ASN1.ITEM* NOTICEREF_it();
+		
+		[CRepr]
+		public struct USERNOTICE_st
+		{
+		    public NOTICEREF* noticeref;
+		    public ASN1.STRING* exptext;
+		}
+		public typealias USERNOTICE = USERNOTICE_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("USERNOTICE_new")
+		]
+		public extern static USERNOTICE* USERNOTICE_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("USERNOTICE_free")
+		]
+		public extern static void USERNOTICE_free(USERNOTICE* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_USERNOTICE")
+		]
+		public extern static USERNOTICE* d2i_USERNOTICE(USERNOTICE** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_USERNOTICE")
+		]
+		public extern static int i2d_USERNOTICE(USERNOTICE* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("USERNOTICE_it")
+		]
+		public extern static ASN1.ITEM* USERNOTICE_it();
+		
+		[CRepr]
+		public struct POLICYQUALINFO_st
+		{
+		    public ASN1.OBJECT* pqualid;
+		    public d_struct d;
+
+			[CRepr, Union]
+			public struct d_struct
+			{
+		        public ASN1.IA5STRING* cpsuri;
+		        public USERNOTICE* usernotice;
+		        public ASN1.TYPE* other;
+			}
+		}
+		public typealias POLICYQUALINFO = POLICYQUALINFO_st;
+		public struct stack_st_POLICYQUALINFO {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYQUALINFO_new")
+		]
+		public extern static POLICYQUALINFO* POLICYQUALINFO_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYQUALINFO_free")
+		]
+		public extern static void POLICYQUALINFO_free(POLICYQUALINFO* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_POLICYQUALINFO")
+		]
+		public extern static POLICYQUALINFO* d2i_POLICYQUALINFO(POLICYQUALINFO** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_POLICYQUALINFO")
+		]
+		public extern static int i2d_POLICYQUALINFO(POLICYQUALINFO* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYQUALINFO_it")
+		]
+		public extern static ASN1.ITEM* POLICYQUALINFO_it();
+		
+		[CRepr]
+		public struct POLICYINFO_st
+		{
+		    public ASN1.OBJECT* policyid;
+		    public stack_st_POLICYQUALINFO* qualifiers;
+		}
+		public typealias POLICYINFO = POLICYINFO_st;
+		public struct stack_st_POLICYINFO {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYINFO_new")
+		]
+		public extern static POLICYINFO* POLICYINFO_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYINFO_free")
+		]
+		public extern static void POLICYINFO_free(POLICYINFO* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_POLICYINFO")
+		]
+		public extern static POLICYINFO* d2i_POLICYINFO(POLICYINFO** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_POLICYINFO")
+		]
+		public extern static int i2d_POLICYINFO(POLICYINFO* a, uint8** outVal); 
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICYINFO_it")
+		]
+		public extern static ASN1.ITEM* POLICYINFO_it();
+
+		public typealias CERTIFICATEPOLICIES = stack_st_POLICYINFO;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CERTIFICATEPOLICIES_new")
+		]
+		public extern static CERTIFICATEPOLICIES* CERTIFICATEPOLICIES_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CERTIFICATEPOLICIES_free")
+		]
+		public extern static void CERTIFICATEPOLICIES_free(CERTIFICATEPOLICIES* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_CERTIFICATEPOLICIES")
+		]
+		public extern static CERTIFICATEPOLICIES* d2i_CERTIFICATEPOLICIES(CERTIFICATEPOLICIES** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_CERTIFICATEPOLICIES")
+		]
+		public extern static int i2d_CERTIFICATEPOLICIES(CERTIFICATEPOLICIES* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CERTIFICATEPOLICIES_it")
+		]
+		public extern static ASN1.ITEM* CERTIFICATEPOLICIES_it();
+		
+		[CRepr]
+		public struct POLICY_MAPPING_st
+		{
+		    public ASN1.OBJECT* issuerDomainPolicy;
+		    public ASN1.OBJECT* subjectDomainPolicy;
+		}
+		public typealias POLICY_MAPPING = POLICY_MAPPING_st;
+		public struct stack_st_POLICY_MAPPING {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_MAPPING_it")
+		]
+		public extern static ASN1.ITEM* POLICY_MAPPING_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_MAPPING_new")
+		]
+		public extern static POLICY_MAPPING* POLICY_MAPPING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_MAPPING_free")
+		]
+		public extern static void POLICY_MAPPING_free(POLICY_MAPPING* a);
+
+		public typealias POLICY_MAPPINGS = stack_st_POLICY_MAPPING;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_MAPPINGS_it")
+		]
+		public extern static ASN1.ITEM* POLICY_MAPPINGS_it();
+		
+		[CRepr]
+		public struct POLICY_CONSTRAINTS_st
+		{
+		    public ASN1.INTEGER* requireExplicitPolicy;
+		    public ASN1.INTEGER* inhibitPolicyMapping;
+		}
+		public typealias POLICY_CONSTRAINTS = POLICY_CONSTRAINTS_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_CONSTRAINTS_it")
+		]
+		public extern static ASN1.ITEM* POLICY_CONSTRAINTS_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_CONSTRAINTS_new")
+		]
+		public extern static POLICY_CONSTRAINTS* POLICY_CONSTRAINTS_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("POLICY_CONSTRAINTS_free")
+		]
+		public extern static void POLICY_CONSTRAINTS_free(POLICY_CONSTRAINTS* a);
+		
+		/* Proxy certificate structures, see RFC 3820 */
+		[CRepr]
+		public struct PROXY_POLICY_st
+		{
+		    public ASN1.OBJECT* policyLanguage;
+		    public ASN1.OCTET_STRING* policy;
+		}
+		public typealias PROXY_POLICY = PROXY_POLICY_st;
+		
+		[CRepr]
+		public struct PROXY_CERT_INFO_EXTENSION_st
+		{
+		    public ASN1.INTEGER* pcPathLengthConstraint;
+		    public PROXY_POLICY* proxyPolicy;
+		}
+		public typealias PROXY_CERT_INFO_EXTENSION = PROXY_CERT_INFO_EXTENSION_st;
+		
+		// DECLARE_ASN1_FUNCTIONS(PROXY_POLICY)
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_POLICY_new")
+		]
+		public extern static PROXY_POLICY* PROXY_POLICY_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_POLICY_free")
+		]
+		public extern static void PROXY_POLICY_free(PROXY_POLICY* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_PROXY_POLICY")
+		]
+		public extern static PROXY_POLICY* d2i_PROXY_POLICY(PROXY_POLICY** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_PROXY_POLICY")
+		]
+		public extern static int i2d_PROXY_POLICY(PROXY_POLICY* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_POLICY_it")
+		]
+		public extern static ASN1.ITEM* PROXY_POLICY_it();
+		// DECLARE_ASN1_FUNCTIONS(PROXY_CERT_INFO_EXTENSION)
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_CERT_INFO_EXTENSION_new")
+		]
+		public extern static PROXY_CERT_INFO_EXTENSION* PROXY_CERT_INFO_EXTENSION_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_CERT_INFO_EXTENSION_free")
+		]
+		public extern static void PROXY_CERT_INFO_EXTENSION_free(PROXY_CERT_INFO_EXTENSION* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_PROXY_CERT_INFO_EXTENSION")
+		]
+		public extern static PROXY_CERT_INFO_EXTENSION* d2i_PROXY_CERT_INFO_EXTENSION(PROXY_CERT_INFO_EXTENSION** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_PROXY_CERT_INFO_EXTENSION")
+		]
+		public extern static int i2d_PROXY_CERT_INFO_EXTENSION(PROXY_CERT_INFO_EXTENSION* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PROXY_CERT_INFO_EXTENSION_it")
+		]
+		public extern static ASN1.ITEM* PROXY_CERT_INFO_EXTENSION_it();
 
 		[CRepr]
 		public struct DIST_POINT_NAME_st
@@ -3823,6 +4869,50 @@ namespace Beef_OpenSSL
 		}
 		public typealias DIST_POINT_NAME = DIST_POINT_NAME_st;
 
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_NAME_new")
+		]
+		public extern static DIST_POINT_NAME* DIST_POINT_NAME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_NAME_free")
+		]
+		public extern static void DIST_POINT_NAME_free(DIST_POINT_NAME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_DIST_POINT_NAME")
+		]
+		public extern static DIST_POINT_NAME* d2i_DIST_POINT_NAME(DIST_POINT_NAME** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_DIST_POINT_NAME")
+		]
+		public extern static int i2d_DIST_POINT_NAME(DIST_POINT_NAME* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_NAME_it")
+		]
+		public extern static ASN1.ITEM* DIST_POINT_NAME_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_set_dpname")
+		]
+		public extern static int DIST_POINT_set_dpname(DIST_POINT_NAME* dpn, X509.NAME* iname);
+
 		[CRepr]
 		public struct DIST_POINT_st
 		{
@@ -3833,6 +4923,80 @@ namespace Beef_OpenSSL
 		}
 		public typealias DIST_POINT = DIST_POINT_st;
 		public struct stack_st_DIST_POINT {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_new")
+		]
+		public extern static DIST_POINT* DIST_POINT_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_free")
+		]
+		public extern static void DIST_POINT_free(DIST_POINT* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_DIST_POINT")
+		]
+		public extern static DIST_POINT* d2i_DIST_POINT(DIST_POINT** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_DIST_POINT")
+		]
+		public extern static int i2d_DIST_POINT(DIST_POINT* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("DIST_POINT_it")
+		]
+		public extern static ASN1.ITEM* DIST_POINT_it();
+
+		public typealias CRL_DIST_POINTS = stack_st_DIST_POINT;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CRL_DIST_POINTS_new")
+		]
+		public extern static CRL_DIST_POINTS* CRL_DIST_POINTS_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CRL_DIST_POINTS_free")
+		]
+		public extern static void CRL_DIST_POINTS_free(CRL_DIST_POINTS* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_CRL_DIST_POINTS")
+		]
+		public extern static CRL_DIST_POINTS* d2i_CRL_DIST_POINTS(CRL_DIST_POINTS* *a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_CRL_DIST_POINTS")
+		]
+		public extern static int i2d_CRL_DIST_POINTS(CRL_DIST_POINTS* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("CRL_DIST_POINTS_it")
+		]
+		public extern static ASN1.ITEM* CRL_DIST_POINTS_it();
 
 		[CRepr]
 		public struct ISSUING_DIST_POINT_st
@@ -3846,6 +5010,42 @@ namespace Beef_OpenSSL
 		}
 		public typealias ISSUING_DIST_POINT = ISSUING_DIST_POINT_st;
 
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ISSUING_DIST_POINT_new")
+		]
+		public extern static ISSUING_DIST_POINT* ISSUING_DIST_POINT_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ISSUING_DIST_POINT_free")
+		]
+		public extern static void ISSUING_DIST_POINT_free(ISSUING_DIST_POINT* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_ISSUING_DIST_POINT")
+		]
+		public extern static ISSUING_DIST_POINT* d2i_ISSUING_DIST_POINT(ISSUING_DIST_POINT** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_ISSUING_DIST_POINT")
+		]
+		public extern static int i2d_ISSUING_DIST_POINT(ISSUING_DIST_POINT* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ISSUING_DIST_POINT_it")
+		]
+		public extern static ASN1.ITEM* ISSUING_DIST_POINT_it();
+
 		[CRepr]
 		public struct GENERAL_SUBTREE_st
 		{
@@ -3856,6 +5056,28 @@ namespace Beef_OpenSSL
 		public typealias GENERAL_SUBTREE = GENERAL_SUBTREE_st;
 		public struct stack_st_GENERAL_SUBTREE {}
 
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_SUBTREE_it")
+		]
+		public extern static ASN1.ITEM* GENERAL_SUBTREE_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_SUBTREE_new")
+		]
+		public extern static GENERAL_SUBTREE* GENERAL_SUBTREE_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("GENERAL_SUBTREE_free")
+		]
+		public extern static void GENERAL_SUBTREE_free(GENERAL_SUBTREE* a);
+
 		[CRepr]
 		public struct NAME_CONSTRAINTS_st
 		{
@@ -3863,6 +5085,43 @@ namespace Beef_OpenSSL
 		    public stack_st_GENERAL_SUBTREE* excludedSubtrees;
 		}
 		public typealias NAME_CONSTRAINTS = NAME_CONSTRAINTS_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NAME_CONSTRAINTS_it")
+		]
+		public extern static ASN1.ITEM* NAME_CONSTRAINTS_it();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NAME_CONSTRAINTS_new")
+		]
+		public extern static NAME_CONSTRAINTS* NAME_CONSTRAINTS_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NAME_CONSTRAINTS_free")
+		]
+		public extern static void NAME_CONSTRAINTS_free(NAME_CONSTRAINTS* a);
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NAME_CONSTRAINTS_check")
+		]
+		public extern static int NAME_CONSTRAINTS_check(X509.x509_st* x, NAME_CONSTRAINTS* nc);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("NAME_CONSTRAINTS_check_CN")
+		]
+		public extern static int NAME_CONSTRAINTS_check_CN(X509.x509_st* x, NAME_CONSTRAINTS* nc);
 
 #if !OPENSSL_NO_RFC3779
 		[CRepr]
@@ -3985,6 +5244,45 @@ namespace Beef_OpenSSL
 		    public function void(void* db, Conf.stack_st_CONF_VALUE* section) free_section;
 		}
 		public typealias CONF_METHOD = CONF_METHOD_st;
+
+		/* Useful typedefs */
+		public function void* EXT_NEW();
+		public function void EXT_FREE(void* ptr);
+		public function void* EXT_D2I(void* ptr, uint8** s, int32 i);
+		public function int EXT_I2D(void* ptr, uint8** s);
+		public function Conf.stack_st_CONF_VALUE* EXT_I2V(v3_ext_method* method, void* ext, Conf.stack_st_CONF_VALUE* extlist);
+		public function void* EXT_V2I(v3_ext_method* method, v3_ext_ctx* ctx, Conf.stack_st_CONF_VALUE* values);
+		public function char8* EXT_I2S(v3_ext_method* method, void* ext);
+		public function void* EXT_S2I(v3_ext_method* method, v3_ext_ctx* ctx, char8* str);
+		public function int EXT_I2R(v3_ext_method* method, void *ext, BIO.bio_st* outVal, int indent);
+		public function void* EXT_R2I(v3_ext_method* method, v3_ext_ctx* ctx, char8* str);
+
+		/* V3 extension structure */
+		[CRepr]
+		public struct v3_ext_method
+		{
+		    public int ext_nid;
+		    public int ext_flags;
+			/* If this is set the following four fields are ignored */
+		    public ASN1.ITEM_EXP* it;
+			/* Old style ASN1 calls */
+		    public EXT_NEW ext_new;
+		    public EXT_FREE ext_free;
+		    public EXT_D2I d2i;
+		    public EXT_I2D i2d;
+			/* The following pair is used for string extensions */
+		    public EXT_I2S i2s;
+		    public EXT_S2I s2i;
+			/* The following pair is used for multi-valued extensions */
+		    public EXT_I2V i2v;
+		    public EXT_V2I v2i;
+			/* The following are used for raw extensions */
+		    public EXT_I2R i2r;
+		    public EXT_R2I r2i;
+		    public void* usr_data;             /* Any extension specific data */
+		}
+		public typealias EXT_METHOD = v3_ext_method;
+		public struct stack_st_X509V3_EXT_METHOD {}
 		
 		/* Context specific info */
 		[CRepr]
@@ -4003,6 +5301,299 @@ namespace Beef_OpenSSL
 			/* Maybe more here */
 		}
 		public typealias CTX = v3_ext_ctx;
+
+		/* ext_flags values */
+		public const int EXT_DYNAMIC   = 0x1;
+		public const int EXT_CTX_DEP   = 0x2;
+		public const int EXT_MULTILINE = 0x4;
+
+		public typealias ENUMERATED_NAMES = ASN1.BIT_STRING_BITNAME;
+		
+		[CRepr]
+		public struct BASIC_CONSTRAINTS_st
+		{
+		    public int ca;
+		    public ASN1.INTEGER* pathlen;
+		}
+		public typealias BASIC_CONSTRAINTS = BASIC_CONSTRAINTS_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("BASIC_CONSTRAINTS_new")
+		]
+		public extern static BASIC_CONSTRAINTS* BASIC_CONSTRAINTS_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("BASIC_CONSTRAINTS_free")
+		]
+		public extern static void BASIC_CONSTRAINTS_free(BASIC_CONSTRAINTS* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_BASIC_CONSTRAINTS")
+		]
+		public extern static BASIC_CONSTRAINTS* d2i_BASIC_CONSTRAINTS(BASIC_CONSTRAINTS** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_BASIC_CONSTRAINTS")
+		]
+		public extern static int i2d_BASIC_CONSTRAINTS(BASIC_CONSTRAINTS* a, uint32** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("BASIC_CONSTRAINTS_it")
+		]
+		public extern static ASN1.ITEM* BASIC_CONSTRAINTS_it();
+
+		[CRepr]
+		public struct PKEY_USAGE_PERIOD_st
+		{
+		    public ASN1.GENERALIZEDTIME* notBefore;
+		    public ASN1.GENERALIZEDTIME* notAfter;
+		}
+		public typealias PKEY_USAGE_PERIOD = PKEY_USAGE_PERIOD_st;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKEY_USAGE_PERIOD_new")
+		]
+		public extern static PKEY_USAGE_PERIOD* PKEY_USAGE_PERIOD_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKEY_USAGE_PERIOD_free")
+		]
+		public extern static void PKEY_USAGE_PERIOD_free(PKEY_USAGE_PERIOD* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_PKEY_USAGE_PERIOD")
+		]
+		public extern static PKEY_USAGE_PERIOD* d2i_PKEY_USAGE_PERIOD(PKEY_USAGE_PERIOD** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_PKEY_USAGE_PERIOD")
+		]
+		public extern static int i2d_PKEY_USAGE_PERIOD(PKEY_USAGE_PERIOD* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKEY_USAGE_PERIOD_it")
+		]
+		public extern static ASN1.ITEM* PKEY_USAGE_PERIOD_it();
+
+		[CRepr]
+		public struct ACCESS_DESCRIPTION_st
+		{
+		    public ASN1.OBJECT* method;
+		    public GENERAL_NAME* location;
+		}
+		public typealias ACCESS_DESCRIPTION = ACCESS_DESCRIPTION_st;
+		public struct stack_st_ACCESS_DESCRIPTION {}
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ACCESS_DESCRIPTION_new")
+		]
+		public extern static ACCESS_DESCRIPTION* ACCESS_DESCRIPTION_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ACCESS_DESCRIPTION_free")
+		]
+		public extern static void ACCESS_DESCRIPTION_free(ACCESS_DESCRIPTION* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_ACCESS_DESCRIPTION")
+		]
+		public extern static ACCESS_DESCRIPTION* d2i_ACCESS_DESCRIPTION(ACCESS_DESCRIPTION** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_ACCESS_DESCRIPTION")
+		]
+		public extern static int i2d_ACCESS_DESCRIPTION(ACCESS_DESCRIPTION* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ACCESS_DESCRIPTION_it")
+		]
+		public extern static ASN1.ITEM* ACCESS_DESCRIPTION_it();
+
+		public typealias AUTHORITY_INFO_ACCESS = stack_st_ACCESS_DESCRIPTION;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_INFO_ACCESS_new")
+		]
+		public extern static AUTHORITY_INFO_ACCESS* AUTHORITY_INFO_ACCESS_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_INFO_ACCESS_free")
+		]
+		public extern static void AUTHORITY_INFO_ACCESS_free(AUTHORITY_INFO_ACCESS* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_AUTHORITY_INFO_ACCESS")
+		]
+		public extern static AUTHORITY_INFO_ACCESS* d2i_AUTHORITY_INFO_ACCESS(AUTHORITY_INFO_ACCESS** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_AUTHORITY_INFO_ACCESS")
+		]
+		public extern static int i2d_AUTHORITY_INFO_ACCESS(AUTHORITY_INFO_ACCESS* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("AUTHORITY_INFO_ACCESS_it")
+		]
+		public extern static ASN1.ITEM* AUTHORITY_INFO_ACCESS_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2a_ACCESS_DESCRIPTION")
+		]
+		public extern static int i2a_ACCESS_DESCRIPTION(BIO.bio_st* bp, ACCESS_DESCRIPTION* a);
+		
+		public typealias EXTENDED_KEY_USAGE = ASN1.stack_st_ASN1_OBJECT;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EXTENDED_KEY_USAGE_new")
+		]
+		public extern static EXTENDED_KEY_USAGE* EXTENDED_KEY_USAGE_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EXTENDED_KEY_USAGE_free")
+		]
+		public extern static void EXTENDED_KEY_USAGE_free(EXTENDED_KEY_USAGE* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_EXTENDED_KEY_USAGE")
+		]
+		public extern static EXTENDED_KEY_USAGE* d2i_EXTENDED_KEY_USAGE(EXTENDED_KEY_USAGE** a, uint8** inVal, int32 len);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_EXTENDED_KEY_USAGE")
+		]
+		public extern static int i2d_EXTENDED_KEY_USAGE(EXTENDED_KEY_USAGE* a, uint8** outVal);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("EXTENDED_KEY_USAGE_it")
+		]
+		public extern static ASN1.ITEM* EXTENDED_KEY_USAGE_it();
+
+		public typealias TLS_FEATURE = ASN1.stack_st_ASN1_INTEGER;
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("TLS_FEATURE_new")
+		]
+		public extern static TLS_FEATURE* TLS_FEATURE_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("TLS_FEATURE_free")
+		]
+		public extern static void TLS_FEATURE_free(TLS_FEATURE* a);
+
+		/* All existing reasons */
+		public const int CRLDP_ALL_REASONS = 0x807f;
+
+		public const int CRL_REASON_NONE                   = -1;
+		public const int CRL_REASON_UNSPECIFIED            = 0;
+		public const int CRL_REASON_KEY_COMPROMISE         = 1;
+		public const int CRL_REASON_CA_COMPROMISE          = 2;
+		public const int CRL_REASON_AFFILIATION_CHANGED    = 3;
+		public const int CRL_REASON_SUPERSEDED             = 4;
+		public const int CRL_REASON_CESSATION_OF_OPERATION = 5;
+		public const int CRL_REASON_CERTIFICATE_HOLD       = 6;
+		public const int CRL_REASON_REMOVE_FROM_CRL        = 8;
+		public const int CRL_REASON_PRIVILEGE_WITHDRAWN    = 9;
+		public const int CRL_REASON_AA_COMPROMISE          = 10;
+
+		/* Values in idp_flags field */
+		/* IDP present */
+		public const int IDP_PRESENT  = 0x1;
+		/* IDP values inconsistent */
+		public const int IDP_INVALID  = 0x2;
+		/* onlyuser true */
+		public const int IDP_ONLYUSER = 0x4;
+		/* onlyCA true */
+		public const int IDP_ONLYCA   = 0x8;
+		/* onlyattr true */
+		public const int IDP_ONLYATTR = 0x10;
+		/* indirectCRL true */
+		public const int IDP_INDIRECT = 0x20;
+		/* onlysomereasons present */
+		public const int IDP_REASONS  = 0x40;
+
+		/* Flags for X509V3_EXT_print() */
+		public const int EXT_UNKNOWN_MASK  = 0xfL << 16;
+		/* Return error for unknown extensions */
+		public const int EXT_DEFAULT       = 0;
+		/* Print error for unknown extensions */
+		public const int EXT_ERROR_UNKNOWN = 1L << 16;
+		/* ASN1 parse unknown extensions */
+		public const int EXT_PARSE_UNKNOWN = 2L << 16;
+		/* BIO_dump unknown extensions */
+		public const int EXT_DUMP_UNKNOWN  = 3L << 16;
+
+		/* Flags for X509V3_add1_i2d */
+		public const int ADD_OP_MASK          = 0xfL;
+		public const int ADD_DEFAULT          = 0L;
+		public const int ADD_APPEND           = 1L;
+		public const int ADD_REPLACE          = 2L;
+		public const int ADD_REPLACE_EXISTING = 3L;
+		public const int ADD_KEEP_EXISTING    = 4L;
+		public const int ADD_DELETE           = 5L;
+		public const int ADD_SILENT           = 0x10;
 		
 		public const int KU_DIGITAL_SIGNATURE = 0x0080;
 		public const int KU_NON_REPUDIATION   = 0x0040;

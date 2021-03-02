@@ -180,6 +180,7 @@ namespace Beef_OpenSSL
 		public const int R_ONLY_ONESHOT_SUPPORTED                          = 177;
 		public const int R_OPERATION_NOT_SUPPORTED_FOR_THIS_KEYTYPE        = 150;
 		public const int R_OPERATON_NOT_INITIALIZED                        = 151;
+		public const int R_OUTPUT_WOULD_OVERFLOW                           = 184;
 		public const int R_PARTIALLY_OVERLAPPING                           = 162;
 		public const int R_PBKDF2_ERROR                                    = 181;
 		public const int R_PKEY_APPLICATION_ASN1_METHOD_ALREADY_REGISTERED = 179;

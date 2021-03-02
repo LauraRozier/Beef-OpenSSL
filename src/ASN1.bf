@@ -54,6 +54,7 @@ namespace Beef_OpenSSL
 		public const int F_ASN1_ITEM_DUP                                       = 191;
 		public const int F_ASN1_ITEM_EMBED_D2I                                 = 120;
 		public const int F_ASN1_ITEM_EMBED_NEW                                 = 121;
+		public const int F_ASN1_ITEM_EX_I2D                                    = 144;
 		public const int F_ASN1_ITEM_FLAGS_I2D                                 = 118;
 		public const int F_ASN1_ITEM_I2D_BIO                                   = 192;
 		public const int F_ASN1_ITEM_I2D_FP                                    = 193;
@@ -146,6 +147,7 @@ namespace Beef_OpenSSL
 		public const int R_ASN1_SIG_PARSE_ERROR                                = 204;
 		public const int R_AUX_ERROR                                           = 100;
 		public const int R_BAD_OBJECT_HEADER                                   = 102;
+		public const int R_BAD_TEMPLATE                                        = 230;
 		public const int R_BMPSTRING_IS_WRONG_LENGTH                           = 214;
 		public const int R_BN_LIB                                              = 105;
 		public const int R_BOOLEAN_IS_WRONG_LENGTH                             = 106;
@@ -1185,6 +1187,8 @@ namespace Beef_OpenSSL
 		/*
 		DECLARE_ASN1_FUNCTIONS(ASN1_BIT_STRING)
 		*/
+		public struct stack_st_ASN1_BIT_STRING {}
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1239,6 +1243,8 @@ namespace Beef_OpenSSL
 		/*
 		DECLARE_ASN1_FUNCTIONS(ASN1_INTEGER)
 		*/
+		public struct stack_st_ASN1_INTEGER {}
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1264,6 +1270,8 @@ namespace Beef_OpenSSL
 		/*
 		DECLARE_ASN1_FUNCTIONS(ASN1_ENUMERATED)
 		*/
+		public struct stack_st_ASN1_ENUMERATED {}
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1340,6 +1348,8 @@ namespace Beef_OpenSSL
 		/*
 		DECLARE_ASN1_FUNCTIONS(ASN1_OCTET_STRING)
 		*/
+		public struct stack_st_ASN1_OCTET_STRING {}
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
