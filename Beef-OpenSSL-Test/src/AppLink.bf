@@ -14,18 +14,18 @@ namespace Beef_OpenSSL_Test
         extern static void AppLink_setFprintf(function char8*(Platform.BfpFile* fp, char8* fmt, ...) func);
 		[CLink]
         extern static void AppLink_setFgets(function char8*(char8* buff, int maxCount, Platform.BfpFile* fp) func);
-		[CLink]
+		[CLink] /* !!REQUIRED!! */
         extern static void AppLink_setFread(function uint(void* buff, uint size, uint count, Platform.BfpFile* fp) func);
-		[CLink]
+		[CLink] /* !!REQUIRED!! */
         extern static void AppLink_setFwrite(function uint(void* buff, uint size, uint count, Platform.BfpFile* fp) func);
         [CLink]
         extern static void AppLink_setFsetmod(function int(Platform.BfpFile* fp, char8 mod) func);
         [CLink]
         extern static void AppLink_setFeof(function int(Platform.BfpFile* fp) func);
-        [CLink]
+        [CLink] /* should not be used */
         extern static void AppLink_setFclose(function int(Platform.BfpFile* fp) func);
 
-		[CLink]
+		[CLink] /* solely for completeness */
         extern static void AppLink_setFopen(function Platform.BfpFile*(char8* filename, char8* mod) func);
 		[CLink]
         extern static void AppLink_setFseek(function int(Platform.BfpFile* fp, int32 offset, int origin) func);
@@ -37,10 +37,10 @@ namespace Beef_OpenSSL_Test
         extern static void AppLink_setFerror(function int(Platform.BfpFile* fp) func);
         [CLink]
         extern static void AppLink_setClearerr(function int(Platform.BfpFile* fp) func);
-        [CLink]
+        [CLink] /* to be used with below */
         extern static void AppLink_setFileno(function int(Platform.BfpFile* fp) func);
 
-		[CLink]
+		[CLink] /* formally can't be used, as flags can vary */
         extern static void AppLink_set_open(function char8*(char8* filename, int openFlags, ...) func);
 		[CLink]
         extern static void AppLink_set_read(function int(int fh, void* dstBuff, uint maxCharCount) func);
@@ -51,16 +51,15 @@ namespace Beef_OpenSSL_Test
 		[CLink]
         extern static void AppLink_set_close(function int(int fh) func);
 
-
         [CLink]
         extern static void** AppLink_getALArray();
 
-		static bool once = true;
+		static bool isInitialized = false;
 
 		[Export, CLink]
 		public static void** OPENSSL_Applink()
 		{
-			if (once) {
+			if (!isInitialized) {
 				//AppLink_setStdin(function void*() func);
 				//AppLink_setStdout(function void*() func);
 				//AppLink_setStderr(function void*() func);
@@ -86,7 +85,7 @@ namespace Beef_OpenSSL_Test
 		        //AppLink_set_lseek(function int32(int fh, int32 offset, int origin) func);
 		        //AppLink_set_close(function int(int fh) func);
 
-				once = false;
+				isInitialized = true;
             }
 
 			return AppLink_getALArray();
