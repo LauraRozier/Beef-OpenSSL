@@ -4,3 +4,6 @@ Dependencies = {corlib = "*", Beef-OpenSSL = "*"}
 [Project]
 Name = "Beef-OpenSSL-Test"
 StartupObject = "Beef_OpenSSL_Test.Program"
+
+[Configs.Debug.Win64]
+DebugCommandArguments = "req -utf8 -nodes -sha256 -newkey rsa:2048 -keyout server.key -out server.csr"

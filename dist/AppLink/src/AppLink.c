@@ -37,19 +37,63 @@
 # include <io.h>
 # include <fcntl.h>
 
-void *(*al_stdin) (void) = NULL;
-void *(*al_stdout) (void) = NULL;
-void *(*al_stderr) (void) = NULL;
-int (*al_feof) (FILE *fp) = NULL;
-int (*al_ferror) (FILE *fp) = NULL;
-int (*al_clearerr) (FILE *fp) = NULL;
-int (*al_fileno) (FILE *fp) = NULL;
-int (*al_fsetmod) (FILE *fp, char mod) = NULL;
+/* Typedefs */
+typedef void *(__cdecl *al_stdin_func)(void);
+typedef void *(__cdecl *al_stdout_func)(void);
+typedef void *(__cdecl *al_stderr_func)(void);
+typedef int (__cdecl *al_fprintf_func)(FILE *const fp, const char *const fmt, ...);
+typedef char *(__cdecl *al_fgets_func)(char *buff, int maxCount, FILE *fp);
+typedef size_t (__cdecl *al_fread_func)(void *buff, size_t size, size_t count, FILE *fp);
+typedef size_t (__cdecl *al_fwrite_func)(const void *buff, size_t size, size_t count, FILE *fp);
+typedef int (__cdecl *al_fsetmod_func)(FILE *fp, char mod);
+typedef int (__cdecl *al_feof_func)(FILE *fp);
+typedef int (__cdecl *al_fclose_func)(FILE *fp);
 
+typedef FILE *(__cdecl *al_fopen_func)(const char *filename, const char *mod);
+typedef int (__cdecl *al_fseek_func)(FILE *fp, long offset, int origin);
+typedef long (__cdecl *al_ftell_func)(FILE *fp);
+typedef int (__cdecl *al_fflush_func)(FILE *fp);
+typedef int (__cdecl *al_ferror_func)(FILE *fp);
+typedef void (__cdecl *al_clearerr_func)(FILE *fp);
+typedef int (__cdecl *al_fileno_func)(FILE *fp);
+
+typedef int (__cdecl *al__open_func)(const char *filename, int openFlags, ...);
+typedef int (__cdecl *al__read_func)(int fh, void *dstBuff, unsigned int maxCharCount);
+typedef int (__cdecl *al__write_func)(int fh, const void *buff, unsigned int maxCharCount);
+typedef long (__cdecl *al__lseek_func)(int fh, long offset, int origin);
+typedef int (__cdecl *al__close_func)(int fh);
+
+/* Pointer storage */
+static al_stdin_func   al_stdin   = NULL;
+static al_stdout_func  al_stdout  = NULL;
+static al_stderr_func  al_stderr  = NULL;
+static al_fprintf_func al_fprintf = fprintf;
+static al_fgets_func   al_fgets   = fgets;
+static al_fread_func   al_fread   = fread;
+static al_fwrite_func  al_fwrite  = fwrite;
+static al_fsetmod_func al_fsetmod = NULL;
+static al_feof_func    al_feof    = feof;
+static al_fclose_func  al_fclose  = fclose;
+
+static al_fopen_func    al_fopen    = fopen;
+static al_fseek_func    al_fseek    = fseek;
+static al_ftell_func    al_ftell    = ftell;
+static al_fflush_func   al_fflush   = fflush;
+static al_ferror_func   al_ferror   = ferror;
+static al_clearerr_func al_clearerr = clearerr;
+static al_fileno_func   al_fileno   = fileno;
+
+static al__open_func  al__open  = _open;
+static al__read_func  al__read  = _read;
+static al__write_func al__write = _write;
+static al__lseek_func al__lseek = _lseek;
+static al__close_func al__close = _close;
+
+/* Utility methods */
 static void *app_stdin(void)
 {
     if (NULL == al_stdin)
-        return NULL;
+        return stdin;
 
     return al_stdin();
 }
@@ -57,7 +101,7 @@ static void *app_stdin(void)
 static void *app_stdout(void)
 {
     if (NULL == al_stdout)
-        return NULL;
+        return stdout;
 
     return al_stdout();
 }
@@ -65,43 +109,9 @@ static void *app_stdout(void)
 static void *app_stderr(void)
 {
     if (NULL == al_stderr)
-        return NULL;
+        return stderr;
 
     return al_stderr();
-}
-
-static int app_feof(FILE *fp)
-{
-    if (NULL == al_feof)
-        return feof(fp);
-
-    return al_feof(fp);
-}
-
-static int app_ferror(FILE *fp)
-{
-    if (NULL == al_ferror)
-        return ferror(fp);
-
-    return al_ferror(fp);
-}
-
-static void app_clearerr(FILE *fp)
-{
-    if (NULL == al_clearerr) {
-        clearerr(fp);
-        return;
-    }
-
-    al_clearerr(fp);
-}
-
-static int app_fileno(FILE *fp)
-{
-    if (NULL == al_fileno)
-        return _fileno(fp);
-
-    return al_fileno(fp);
 }
 
 static int app_fsetmod(FILE *fp, char mod)
@@ -123,77 +133,127 @@ static int app_fsetmod(FILE *fp, char mod)
 extern "C" {
 #endif
 
-__declspec(dllexport) void __cdecl AppLink_setStdin(void *(*func) (void))
+__declspec(dllexport) void __cdecl AppLink_setStdin(al_stdin_func func)
 {
     al_stdin = func;
 }
-
-__declspec(dllexport) void __cdecl AppLink_setStdout(void *(*func) (void))
+__declspec(dllexport) void __cdecl AppLink_setStdout(al_stdout_func func)
 {
     al_stdout = func;
 }
-
-__declspec(dllexport) void __cdecl AppLink_setStderr(void *(*func) (void))
+__declspec(dllexport) void __cdecl AppLink_setStderr(al_stderr_func func)
 {
     al_stderr = func;
 }
-
-__declspec(dllexport) void __cdecl AppLink_setFeof(int (*func) (FILE *fp))
+__declspec(dllexport) void __cdecl AppLink_setFprintf(al_fprintf_func func)
+{
+    al_fprintf = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFgets(al_fgets_func func)
+{
+    al_fgets = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFread(al_fread_func func)
+{
+    al_fread = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFwrite(al_fwrite_func func)
+{
+    al_fwrite = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFsetmod(al_fsetmod_func func)
+{
+    al_fsetmod = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFeof(al_feof_func func)
 {
     al_feof = func;
 }
+__declspec(dllexport) void __cdecl AppLink_setFclose(al_fclose_func func)
+{
+    al_fclose = func;
+}
 
-__declspec(dllexport) void __cdecl AppLink_setFerror(int (*func) (FILE *fp))
+__declspec(dllexport) void __cdecl AppLink_setFopen(al_fopen_func func)
+{
+    al_fopen = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFseek(al_fseek_func func)
+{
+    al_fseek = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFtellr(al_ftell_func func)
+{
+    al_ftell = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFflush(al_fflush_func func)
+{
+    al_fflush = func;
+}
+__declspec(dllexport) void __cdecl AppLink_setFerror(al_ferror_func func)
 {
     al_ferror = func;
 }
-
-__declspec(dllexport) void __cdecl AppLink_setClearerr(int (*func) (FILE *fp))
+__declspec(dllexport) void __cdecl AppLink_setClearerr(al_clearerr_func func)
 {
     al_clearerr = func;
 }
-
-__declspec(dllexport) void __cdecl AppLink_setFileno(int (*func) (FILE *fp))
+__declspec(dllexport) void __cdecl AppLink_setFileno(al_fileno_func func)
 {
     al_fileno = func;
 }
 
-__declspec(dllexport) void __cdecl AppLink_setFsetmod(int (*func) (FILE *fp, char mod))
+__declspec(dllexport) void __cdecl AppLink_set_open(al__open_func func)
 {
-    al_fsetmod = func;
+    al__open = func;
+}
+__declspec(dllexport) void __cdecl AppLink_set_read(al__read_func func)
+{
+    al__read = func;
+}
+__declspec(dllexport) void __cdecl AppLink_set_write(al__write_func func)
+{
+    al__write = func;
+}
+__declspec(dllexport) void __cdecl AppLink_set_lseek(al__lseek_func func)
+{
+    al__lseek = func;
+}
+__declspec(dllexport) void __cdecl AppLink_set_close(al__close_func func)
+{
+    al__close = func;
 }
 
 __declspec(dllexport) void **__cdecl AppLink_getALArray(void)
 {
     static int once = 1;
-    static void *OPENSSL_ApplinkTable[APPLINK_MAX + 1] =
-        { (void *)APPLINK_MAX };
+    static void *OPENSSL_ApplinkTable[APPLINK_MAX + 1] = { (void *)APPLINK_MAX }; // Item 0 == count
 
     if (once) {
-        OPENSSL_ApplinkTable[APPLINK_STDIN] = app_stdin;
-        OPENSSL_ApplinkTable[APPLINK_STDOUT] = app_stdout;
-        OPENSSL_ApplinkTable[APPLINK_STDERR] = app_stderr;
-        OPENSSL_ApplinkTable[APPLINK_FPRINTF] = fprintf;
-        OPENSSL_ApplinkTable[APPLINK_FGETS] = fgets;
-        OPENSSL_ApplinkTable[APPLINK_FREAD] = fread;
-        OPENSSL_ApplinkTable[APPLINK_FWRITE] = fwrite;
-        OPENSSL_ApplinkTable[APPLINK_FSETMOD] = app_fsetmod;
-        OPENSSL_ApplinkTable[APPLINK_FEOF] = app_feof;
-        OPENSSL_ApplinkTable[APPLINK_FCLOSE] = fclose;
+        OPENSSL_ApplinkTable[APPLINK_STDIN]    = app_stdin;
+        OPENSSL_ApplinkTable[APPLINK_STDOUT]   = app_stdout;
+        OPENSSL_ApplinkTable[APPLINK_STDERR]   = app_stderr;
+        OPENSSL_ApplinkTable[APPLINK_FPRINTF]  = al_fprintf;
+        OPENSSL_ApplinkTable[APPLINK_FGETS]    = al_fgets;
+        OPENSSL_ApplinkTable[APPLINK_FREAD]    = al_fread;
+        OPENSSL_ApplinkTable[APPLINK_FWRITE]   = al_fwrite;
+        OPENSSL_ApplinkTable[APPLINK_FSETMOD]  = app_fsetmod;
+        OPENSSL_ApplinkTable[APPLINK_FEOF]     = al_feof;
+        OPENSSL_ApplinkTable[APPLINK_FCLOSE]   = al_fclose;
 
-        OPENSSL_ApplinkTable[APPLINK_FOPEN] = fopen;
-        OPENSSL_ApplinkTable[APPLINK_FSEEK] = fseek;
-        OPENSSL_ApplinkTable[APPLINK_FTELL] = ftell;
-        OPENSSL_ApplinkTable[APPLINK_FFLUSH] = fflush;
-        OPENSSL_ApplinkTable[APPLINK_FERROR] = app_ferror;
-        OPENSSL_ApplinkTable[APPLINK_CLEARERR] = app_clearerr;
-        OPENSSL_ApplinkTable[APPLINK_FILENO] = app_fileno;
+        OPENSSL_ApplinkTable[APPLINK_FOPEN]    = al_fopen;
+        OPENSSL_ApplinkTable[APPLINK_FSEEK]    = al_fseek;
+        OPENSSL_ApplinkTable[APPLINK_FTELL]    = al_ftell;
+        OPENSSL_ApplinkTable[APPLINK_FFLUSH]   = al_fflush;
+        OPENSSL_ApplinkTable[APPLINK_FERROR]   = al_ferror;
+        OPENSSL_ApplinkTable[APPLINK_CLEARERR] = al_clearerr;
+        OPENSSL_ApplinkTable[APPLINK_FILENO]   = al_fileno;
 
-        OPENSSL_ApplinkTable[APPLINK_OPEN] = _open;
-        OPENSSL_ApplinkTable[APPLINK_READ] = _read;
-        OPENSSL_ApplinkTable[APPLINK_WRITE] = _write;
-        OPENSSL_ApplinkTable[APPLINK_LSEEK] = _lseek;
-        OPENSSL_ApplinkTable[APPLINK_CLOSE] = _close;
+        OPENSSL_ApplinkTable[APPLINK_OPEN]     = al__open;
+        OPENSSL_ApplinkTable[APPLINK_READ]     = al__read;
+        OPENSSL_ApplinkTable[APPLINK_WRITE]    = al__write;
+        OPENSSL_ApplinkTable[APPLINK_LSEEK]    = al__lseek;
+        OPENSSL_ApplinkTable[APPLINK_CLOSE]    = al__close;
 
         once = 0;
     }
