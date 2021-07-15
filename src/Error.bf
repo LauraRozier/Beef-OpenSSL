@@ -387,7 +387,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("ERR_print_errors")
 		]
-		public extern static void print_errors(BIO *bp);
+		public extern static void print_errors(BIO.bio_st* bp);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),

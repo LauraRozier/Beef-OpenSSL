@@ -1,6 +1,7 @@
 using System;
+using Beef_OpenSSL;
 
-namespace Beef_OpenSSL_Test
+namespace Beef_OpenSSL
 {
 	sealed abstract class AppLink
 	{
@@ -11,7 +12,7 @@ namespace Beef_OpenSSL_Test
         [CLink]
         extern static void AppLink_setStderr(function void*() func);
 		[CLink]
-        extern static void AppLink_setFprintf(function char8*(Platform.BfpFile* fp, char8* fmt, ...) func);
+        extern static void AppLink_setFprintf(function int(Platform.BfpFile* fp, char8* fmt, ...) func);
 		[CLink]
         extern static void AppLink_setFgets(function char8*(char8* buff, int maxCount, Platform.BfpFile* fp) func);
 		[CLink] /* !!REQUIRED!! */
@@ -60,10 +61,10 @@ namespace Beef_OpenSSL_Test
 		public static void** OPENSSL_Applink()
 		{
 			if (!isInitialized) {
-				//AppLink_setStdin(function void*() func);
-				//AppLink_setStdout(function void*() func);
-				//AppLink_setStderr(function void*() func);
-				//AppLink_setFprintf(function char8*(Platform.BfpFile* fp, char8* fmt, ...) func);
+				//AppLink_setStdin(=> app_stdin);
+				//AppLink_setStdout(=> app_stdout);
+				//AppLink_setStderr(=> app_stderr);
+				//AppLink_setFprintf(function int(Platform.BfpFile* fp, char8* fmt, ...) func);
 				//AppLink_setFgets(function char8*(char8* buff, int maxCount, Platform.BfpFile* fp) func);
 				AppLink_setFread(=> app_fread); /* !!REQUIRED!! */
 				AppLink_setFwrite(=> app_fwrite); /* !!REQUIRED!! */
@@ -103,7 +104,7 @@ namespace Beef_OpenSSL_Test
 			return STDIN;
 		}
 		*/
-		
+
 		/*
 		static Platform.BfpFile* STDOUT = null;
 		static void* app_stdout()
@@ -116,7 +117,7 @@ namespace Beef_OpenSSL_Test
 			return STDOUT;
 		}
 		*/
-			
+
 		/*
 		static Platform.BfpFile* STDERR = null;
 		static void* app_stderr()
@@ -129,7 +130,7 @@ namespace Beef_OpenSSL_Test
 			return STDERR;
 		}
 		*/
-		
+
 		[AlwaysInclude] /* !!REQUIRED!! */
 		static uint app_fread(void* buff, uint size, uint count, Platform.BfpFile* fp)
 		{

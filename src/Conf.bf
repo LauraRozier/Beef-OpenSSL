@@ -177,7 +177,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("CONF_load_bio")
 		]
-		public extern static lhash_st_CONF_VALUE* load_bio(lhash_st_CONF_VALUE* conf, BIO *bp, int* eline);
+		public extern static lhash_st_CONF_VALUE* load_bio(lhash_st_CONF_VALUE* conf, BIO.bio_st* bp, int* eline);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),

@@ -311,7 +311,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_X509")
 		]
-		public static extern X509.x509_st* read_bio_X509(BIO* bp, X509.x509_st** x, password_cb* cb, void* u);
+		public static extern X509.x509_st* read_bio_X509(BIO.bio_st* bp, X509.x509_st** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -343,7 +343,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_X509_AUX")
 		]
-		public static extern X509.x509_st* read_bio_X509_AUX(BIO* bp, X509.x509_st** x, password_cb* cb, void* u);
+		public static extern X509.x509_st* read_bio_X509_AUX(BIO.bio_st* bp, X509.x509_st** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -375,7 +375,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_X509_REQ")
 		]
-		public static extern X509.REQ* read_bio_X509_REQ(BIO* bp, X509.REQ** x, password_cb* cb, void* u);
+		public static extern X509.REQ* read_bio_X509_REQ(BIO.bio_st* bp, X509.REQ** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -425,7 +425,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_X509_CRL")
 		]
-		public static extern X509.CRL* read_bio_X509_CRL(BIO* bp, X509.CRL** x, password_cb* cb, void* u);
+		public static extern X509.CRL* read_bio_X509_CRL(BIO.bio_st* bp, X509.CRL** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -457,7 +457,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_PKCS7")
 		]
-		public static extern PKCS7.pkcs7_st* read_bio_PKCS7(BIO* bp, PKCS7.pkcs7_st** x, password_cb* cb, void* u);
+		public static extern PKCS7.pkcs7_st* read_bio_PKCS7(BIO.bio_st* bp, PKCS7.pkcs7_st** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -489,7 +489,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_NETSCAPE_CERT_SEQUENCE")
 		]
-		public static extern X509.NETSCAPE_CERT_SEQUENCE* read_bio_NETSCAPE_CERT_SEQUENCE(BIO* bp, X509.NETSCAPE_CERT_SEQUENCE** x, password_cb* cb, void* u);
+		public static extern X509.NETSCAPE_CERT_SEQUENCE* read_bio_NETSCAPE_CERT_SEQUENCE(BIO.bio_st* bp, X509.NETSCAPE_CERT_SEQUENCE** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -521,7 +521,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_PKCS8")
 		]
-		public static extern X509.SIG* read_bio_PKCS8(BIO* bp, X509.SIG** x, password_cb* cb, void* u);
+		public static extern X509.SIG* read_bio_PKCS8(BIO.bio_st* bp, X509.SIG** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -553,7 +553,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_PKCS8_PRIV_KEY_INFO")
 		]
-		public static extern PKCS8.PRIV_KEY_INFO* read_bio_PKCS8_PRIV_KEY_INFO(BIO* bp, PKCS8.PRIV_KEY_INFO** x, password_cb* cb, void* u);
+		public static extern PKCS8.PRIV_KEY_INFO* read_bio_PKCS8_PRIV_KEY_INFO(BIO.bio_st* bp, PKCS8.PRIV_KEY_INFO** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -585,7 +585,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_RSAPrivateKey")
 		]
-		public static extern RSA.rsa_st* read_bio_RSAPrivateKey(BIO* bp, RSA.rsa_st** x, password_cb* cb, void* u);
+		public static extern RSA.rsa_st* read_bio_RSAPrivateKey(BIO.bio_st* bp, RSA.rsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -617,7 +617,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_RSAPublicKey")
 		]
-		public static extern RSA.rsa_st* read_bio_RSAPublicKey(BIO* bp, RSA.rsa_st** x, password_cb* cb, void* u);
+		public static extern RSA.rsa_st* read_bio_RSAPublicKey(BIO.bio_st* bp, RSA.rsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -649,7 +649,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_RSA_PUBKEY")
 		]
-		public static extern RSA.rsa_st* read_bio_RSA_PUBKEY(BIO* bp, RSA.rsa_st** x, password_cb* cb, void* u);
+		public static extern RSA.rsa_st* read_bio_RSA_PUBKEY(BIO.bio_st* bp, RSA.rsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -682,7 +682,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_DSAPrivateKey")
 		]
-		public static extern DSA.dsa_st* read_bio_DSAPrivateKey(BIO* bp, DSA.dsa_st** x, password_cb* cb, void* u);
+		public static extern DSA.dsa_st* read_bio_DSAPrivateKey(BIO.bio_st* bp, DSA.dsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -714,7 +714,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_DSA_PUBKEY")
 		]
-		public static extern DSA.dsa_st* read_bio_DSA_PUBKEY(BIO* bp, DSA.dsa_st** x, password_cb* cb, void* u);
+		public static extern DSA.dsa_st* read_bio_DSA_PUBKEY(BIO.bio_st* bp, DSA.dsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -746,7 +746,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_DSAparams")
 		]
-		public static extern DSA.dsa_st* read_bio_DSAparams(BIO* bp, DSA.dsa_st** x, password_cb* cb, void* u);
+		public static extern DSA.dsa_st* read_bio_DSAparams(BIO.bio_st* bp, DSA.dsa_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -779,7 +779,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_ECPKParameters")
 		]
-		public static extern EC.GROUP* read_bio_ECPKParameters(BIO* bp, EC.GROUP** x, password_cb* cb, void* u);
+		public static extern EC.GROUP* read_bio_ECPKParameters(BIO.bio_st* bp, EC.GROUP** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -811,7 +811,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_ECPrivateKey")
 		]
-		public static extern EC.KEY* read_bio_ECPrivateKey(BIO* bp, EC.KEY** x, password_cb* cb, void* u);
+		public static extern EC.KEY* read_bio_ECPrivateKey(BIO.bio_st* bp, EC.KEY** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -843,7 +843,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_EC_PUBKEY")
 		]
-		public static extern EC.KEY* read_bio_EC_PUBKEY(BIO* bp, EC.KEY** x, password_cb* cb, void* u);
+		public static extern EC.KEY* read_bio_EC_PUBKEY(BIO.bio_st* bp, EC.KEY** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -876,7 +876,7 @@ namespace Beef_OpenSSL
 	#endif
 			LinkName("PEM_read_bio_DHparams")
 		]
-		public static extern DH.dh_st* read_bio_DHparams(BIO* bp, DH.dh_st** x, password_cb* cb, void* u);
+		public static extern DH.dh_st* read_bio_DHparams(BIO.bio_st* bp, DH.dh_st** x, password_cb* cb, void* u);
 		[
 	#if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -927,7 +927,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_PrivateKey")
 		]
-		public static extern EVP.PKEY* read_bio_PrivateKey(BIO* bp, EVP.PKEY** x, password_cb* cb, void* u);
+		public static extern EVP.PKEY* read_bio_PrivateKey(BIO.bio_st* bp, EVP.PKEY** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -959,7 +959,7 @@ namespace Beef_OpenSSL
 #endif
 			LinkName("PEM_read_bio_PUBKEY")
 		]
-		public static extern EVP.PKEY* read_bio_PUBKEY(BIO* bp, EVP.PKEY** x, password_cb* cb, void* u);
+		public static extern EVP.PKEY* read_bio_PUBKEY(BIO.bio_st* bp, EVP.PKEY** x, password_cb* cb, void* u);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
