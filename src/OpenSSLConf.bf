@@ -13,19 +13,22 @@ namespace Beef_OpenSSL
 	static {
 #if !OPENSSL_LINK_STATIC
 	#if BF_PLATFORM_WINDOWS
-		#if !(BF_32_BIT || BF_64_BIT)
-			#error Unsupported CPU
-		#endif
-	
+		#if BF_32_BIT
 			public const String OPENSSL_LIB_SSL    = "libssl-1_1.dll";
 			public const String OPENSSL_LIB_CRYPTO = "libcrypto-1_1.dll";
-	#elif BF_PLATFORM_LINUX
-		#if !BF_64_BIT
+		#elif BF_64_BIT
+			public const String OPENSSL_LIB_SSL    = "libssl-1_1-x64.dll";
+			public const String OPENSSL_LIB_CRYPTO = "libcrypto-1_1-x64.dll";
+		#else
 			#error Unsupported CPU
 		#endif
-	
+	#elif BF_PLATFORM_LINUX
+		#if BF_64_BIT
 			public const String OPENSSL_LIB_SSL    = "libssl.so";
 			public const String OPENSSL_LIB_CRYPTO = "libcrypto.so";
+		#else
+			#error Unsupported CPU
+		#endif
 	#else
 		#error Unsupported platform
 	#endif
