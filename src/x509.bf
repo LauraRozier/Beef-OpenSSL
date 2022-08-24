@@ -1975,7 +1975,35 @@ namespace Beef_OpenSSL
 
 		//DECLARE_ASN1_FUNCTIONS(X509_CINF)
 
-		//DECLARE_ASN1_FUNCTIONS(X509)
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509_new")
+		]
+		public extern static x509_st* X509_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("X509_free")
+		]
+		public extern static void X509_free(x509_st* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("d2i_X509")
+		]
+		public extern static x509_st* d2i_X509(x509_st** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("i2d_X509")
+		]
+		public extern static int i2d_X509(x509_st* a, uint8** _out);
+
 		//DECLARE_ASN1_FUNCTIONS(X509_CERT_AUX)
 
 		[Inline]
