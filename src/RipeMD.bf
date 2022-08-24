@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class RipeMD160
+	sealed static class RipeMD160
 	{
 #if !OPENSSL_NO_RMD160
 		public typealias LONG = uint;

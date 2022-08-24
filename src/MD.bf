@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class MD2
+	sealed static class MD2
 	{
 #if !OPENSSL_NO_MD2
 		public typealias INT = uint8;
@@ -67,7 +67,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class MD4
+	sealed static class MD4
 	{
 #if !OPENSSL_NO_MD4
 		/*-
@@ -133,7 +133,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class MD5
+	sealed static class MD5
 	{
 #if !OPENSSL_NO_MD5
 		/*
@@ -199,7 +199,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class MDC2
+	sealed static class MDC2
 	{
 #if !OPENSSL_NO_MDC2
 		public const int BLOCK         = 8;

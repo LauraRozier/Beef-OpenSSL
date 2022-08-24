@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class RC2
+	sealed static class RC2
 	{
 #if !OPENSSL_NO_RC2
 		public typealias INT = uint;
@@ -81,7 +81,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class RC4
+	sealed static class RC4
 	{
 		public typealias INT = uint;
 
@@ -119,7 +119,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class RC5
+	sealed static class RC5
 	{
 #if !OPENSSL_NO_RC5
 		public const int ENCRYPT = 1;

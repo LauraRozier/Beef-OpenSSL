@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class CMAC
+	sealed static class CMAC
 	{
 #if !OPENSSL_NO_CMAC
 		/* Opaque */

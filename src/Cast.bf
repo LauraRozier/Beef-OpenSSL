@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Cast
+	sealed static class Cast
 	{
 #if !OPENSSL_NO_CAST
 		public const int ENCRYPT = 1;

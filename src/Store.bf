@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class OSSL_Store
+	sealed static class OSSL_Store
 	{
 		/*-
 		 *  The main OSSL_STORE functions.

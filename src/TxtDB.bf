@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class TxtDB
+	sealed static class TxtDB
 	{
 		public const int ERROR_OK                 = 0;
 		public const int ERROR_MALLOC             = 1;

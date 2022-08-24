@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class AES
+	sealed static class AES
 	{
 		public const int ENCRYPT = 1;
 		public const int DECRYPT = 0;

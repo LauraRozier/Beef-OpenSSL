@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Error
+	sealed static class Error
 	{
 #if !OPENSSL_NO_ERR
 		[Inline]

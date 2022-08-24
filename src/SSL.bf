@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SSL
+	sealed static class SSL
 	{
 		/*
 		** libssl-1_1.dll
@@ -6316,13 +6316,13 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class SSL2
+	sealed static class SSL2
 	{
 		public const int VERSION         = 0x0002;
 		public const int MT_CLIENT_HELLO = 1;
 	}
 
-	sealed abstract class SSLv2_3
+	sealed static class SSLv2_3
 	{
 		[Inline]
 		public static SSL.METHOD* method() => TLS.method();
@@ -6332,7 +6332,7 @@ namespace Beef_OpenSSL
 		public static SSL.METHOD* client_method() => TLS.client_method();
 	}
 
-	sealed abstract class SSL3
+	sealed static class SSL3
 	{
 #if !OPENSSL_NO_COMP
 		/* Used for holding the relevant compression methods loaded into CTX */

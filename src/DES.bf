@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class DES
+	sealed static class DES
 	{
 #if !OPENSSL_NO_DES
 		public typealias LONG = uint;

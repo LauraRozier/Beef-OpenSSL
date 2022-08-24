@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Engine
+	sealed static class Engine
 	{
 		/* This is a structure for storing implementations of various crypto algorithms and functions. */
 		[CRepr]

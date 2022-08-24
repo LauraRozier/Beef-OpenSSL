@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class OSSL
+	sealed static class OSSL
 	{
 		/* Binary/behaviour compatibility levels */
 		public const uint DYNAMIC_VERSION = 0x00030000U;
@@ -19,7 +19,7 @@ namespace Beef_OpenSSL
 		public const uint DYNAMIC_OLDEST  = 0x00030000U;
 	}
 
-	sealed abstract class OSSLType
+	sealed static class OSSLType
 	{
 		[CRepr]
 		public struct tm

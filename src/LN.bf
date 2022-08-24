@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class LN
+	sealed static class LN
 	{
 		public const String undef                                    = "undefined";
 		public const String itu_t                                    = "itu-t";

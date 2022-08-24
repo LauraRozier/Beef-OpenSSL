@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class BN
+	sealed static class BN
 	{
 		[CRepr]
 		public struct bignum_st

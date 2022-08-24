@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class RSA
+	sealed static class RSA
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -662,8 +662,7 @@ namespace Beef_OpenSSL
 			LinkName("RSA_pkey_ctx_ctrl")
 		]
 		public extern static int pkey_ctx_ctrl(EVP.PKEY_CTX* ctx, int optype, int cmd, int p1, void* p2);
-		
-		// DECLARE_ASN1_ENCODE_FUNCTIONS_const(RSA, RSAPublicKey)
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -685,7 +684,7 @@ namespace Beef_OpenSSL
 			CLink
 		]
 		public extern static ASN1.ITEM* RSAPublicKey_it();
-		// DECLARE_ASN1_ENCODE_FUNCTIONS_const(RSA, RSAPrivateKey)
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -719,8 +718,7 @@ namespace Beef_OpenSSL
 		    public X509.ALGOR* maskHash;
 		}
 		public typealias PSS_PARAMS = pss_params_st;
-		
-		// DECLARE_ASN1_FUNCTIONS(RSA_PSS_PARAMS)
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -767,8 +765,7 @@ namespace Beef_OpenSSL
 		    public X509.ALGOR* maskHash;
 		}
 		public typealias OAEP_PARAMS = oaep_params_st;
-		
-		// DECLARE_ASN1_FUNCTIONS(RSA_OAEP_PARAMS)
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),

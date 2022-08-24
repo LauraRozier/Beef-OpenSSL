@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Blowfish
+	sealed static class Blowfish
 	{
 #if !OPENSSL_NO_BF
 		public const int ENCRYPT = 1;

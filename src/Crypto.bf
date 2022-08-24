@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Crypto
+	sealed static class Crypto
 	{
 		/*-------------------------------------------------------------------------------
 		** cryptoerr.h

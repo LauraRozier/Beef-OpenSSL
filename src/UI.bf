@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class UI
+	sealed static class UI
 	{
 #if OPENSSL_NO_UI_CONSOLE
 	#define OPENSSL_NO_UI

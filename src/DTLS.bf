@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class DTLS
+	sealed static class DTLS
 	{
 		public const int MIN_VERSION   = DTLS1.VERSION;
 		public const int MAX_VERSION   = DTLS1_2.VERSION;
@@ -100,7 +100,7 @@ namespace Beef_OpenSSL
 		public extern static void set_timer_cb(SSL.ssl_st* s, timer_cb cb);
 	}
 
-	sealed abstract class DTLS1
+	sealed static class DTLS1
 	{
 		public const int VERSION                 = 0xFEFF;
 		
@@ -155,7 +155,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class DTLS1_2
+	sealed static class DTLS1_2
 	{
 		public const int VERSION = 0xFEFD;
 		

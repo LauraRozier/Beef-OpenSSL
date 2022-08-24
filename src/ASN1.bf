@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class ASN1
+	sealed static class ASN1
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -1042,10 +1042,14 @@ namespace Beef_OpenSSL
 			CLink
 		]
 		public static extern OBJECT* d2i_ASN1_OBJECT(OBJECT** a, uint8** pp, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_OBJECT_it")
+		]
+		public extern static ASN1.ITEM* OBJECT_it();
 
-		/*
-		DECLARE_ASN1_ITEM(ASN1_OBJECT)
-		*/
 		public struct stack_st_ASN1_OBJECT {}
 
 		[
@@ -1183,10 +1187,7 @@ namespace Beef_OpenSSL
 			LinkName("ASN1_BIT_STRING_it")
 		]
 		public static extern ITEM* BIT_STRING_it();
-		
-		/*
-		DECLARE_ASN1_FUNCTIONS(ASN1_BIT_STRING)
-		*/
+
 		public struct stack_st_ASN1_BIT_STRING {}
 
 		[
@@ -1239,10 +1240,43 @@ namespace Beef_OpenSSL
 			LinkName("ASN1_BIT_STRING_set_asc")
 		]
 		public static extern int BIT_STRING_set_asc(BIT_STRING* bs, char8* name, int value, BIT_STRING_BITNAME* tbl);
-		
-		/*
-		DECLARE_ASN1_FUNCTIONS(ASN1_INTEGER)
-		*/
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_INTEGER_new")
+		]
+		public extern static INTEGER* INTEGER_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_INTEGER_free")
+		]
+		public extern static void INTEGER_free(INTEGER* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static INTEGER* d2i_ASN1_INTEGER(INTEGER** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_INTEGER(INTEGER* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_INTEGER_it")
+		]
+		public extern static ASN1.ITEM* INTEGER_it();
+
 		public struct stack_st_ASN1_INTEGER {}
 
 		[
@@ -1266,10 +1300,43 @@ namespace Beef_OpenSSL
 			LinkName("ASN1_INTEGER_cmp")
 		]
 		public static extern int INTEGER_cmp(INTEGER* x, INTEGER* y);
-		
-		/*
-		DECLARE_ASN1_FUNCTIONS(ASN1_ENUMERATED)
-		*/
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_ENUMERATED_new")
+		]
+		public extern static ENUMERATED* ENUMERATED_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_ENUMERATED_free")
+		]
+		public extern static void ENUMERATED_free(ENUMERATED* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ENUMERATED* d2i_ASN1_ENUMERATED(ENUMERATED** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_ENUMERATED(ENUMERATED* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_ENUMERATED_it")
+		]
+		public extern static ASN1.ITEM* ENUMERATED_it();
+
 		public struct stack_st_ASN1_ENUMERATED {}
 
 		[
@@ -1344,10 +1411,43 @@ namespace Beef_OpenSSL
 			LinkName("ASN1_TIME_diff")
 		]
 		public static extern int TIME_diff(int* pday, int* psec, TIME* from, TIME* to);
-		
-		/*
-		DECLARE_ASN1_FUNCTIONS(ASN1_OCTET_STRING)
-		*/
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_OCTET_STRING_new")
+		]
+		public extern static OCTET_STRING* OCTET_STRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_OCTET_STRING_free")
+		]
+		public extern static void OCTET_STRING_free(OCTET_STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static OCTET_STRING* d2i_ASN1_OCTET_STRING(OCTET_STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_OCTET_STRING(OCTET_STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_OCTET_STRING_it")
+		]
+		public extern static ASN1.ITEM* OCTET_STRING_it();
+
 		public struct stack_st_ASN1_OCTET_STRING {}
 
 		[
@@ -1371,14 +1471,186 @@ namespace Beef_OpenSSL
 			LinkName("ASN1_OCTET_STRING_set")
 		]
 		public static extern int OCTET_STRING_set(OCTET_STRING* str, uint8* data, int len);
-		
-		/*
-		DECLARE_ASN1_FUNCTIONS(ASN1_VISIBLESTRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_UNIVERSALSTRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_UTF8STRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_NULL)
-		DECLARE_ASN1_FUNCTIONS(ASN1_BMPSTRING)
-		*/
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_VISIBLESTRING_new")
+		]
+		public extern static VISIBLESTRING* VISIBLESTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_VISIBLESTRING_free")
+		]
+		public extern static void VISIBLESTRING_free(VISIBLESTRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static VISIBLESTRING* d2i_ASN1_VISIBLESTRING(VISIBLESTRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_VISIBLESTRING(VISIBLESTRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_VISIBLESTRING_it")
+		]
+		public extern static ASN1.ITEM* VISIBLESTRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UNIVERSALSTRING_new")
+		]
+		public extern static UNIVERSALSTRING* UNIVERSALSTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UNIVERSALSTRING_free")
+		]
+		public extern static void UNIVERSALSTRING_free(UNIVERSALSTRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static UNIVERSALSTRING* d2i_ASN1_UNIVERSALSTRING(UNIVERSALSTRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_UNIVERSALSTRING(UNIVERSALSTRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UNIVERSALSTRING_it")
+		]
+		public extern static ASN1.ITEM* UNIVERSALSTRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTF8STRING_new")
+		]
+		public extern static UTF8STRING* UTF8STRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTF8STRING_free")
+		]
+		public extern static void UTF8STRING_free(UTF8STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static UTF8STRING* d2i_ASN1_UTF8STRING(UTF8STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_UTF8STRING(UTF8STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTF8STRING_it")
+		]
+		public extern static ASN1.ITEM* UTF8STRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_NULL_new")
+		]
+		public extern static NULL* NULL_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_NULL_free")
+		]
+		public extern static void NULL_free(NULL* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static NULL* d2i_ASN1_NULL(NULL** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_NULL(NULL* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_NULL_it")
+		]
+		public extern static ASN1.ITEM* NULL_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_BMPSTRING_new")
+		]
+		public extern static BMPSTRING* BMPSTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_BMPSTRING_free")
+		]
+		public extern static void BMPSTRING_free(BMPSTRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static BMPSTRING* d2i_ASN1_BMPSTRING(BMPSTRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_BMPSTRING(BMPSTRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_BMPSTRING_it")
+		]
+		public extern static ASN1.ITEM* BMPSTRING_it();
 
 		[
 #if !OPENSSL_LINK_STATIC
@@ -1395,21 +1667,374 @@ namespace Beef_OpenSSL
 		]
 		public static extern int UTF8_putc(uint8* str, int len, uint value);
 
-		/*
-		DECLARE_ASN1_FUNCTIONS_name(ASN1_STRING, ASN1_PRINTABLE)
-		
-		DECLARE_ASN1_FUNCTIONS_name(ASN1_STRING, DIRECTORYSTRING)
-		DECLARE_ASN1_FUNCTIONS_name(ASN1_STRING, DISPLAYTEXT)
-		DECLARE_ASN1_FUNCTIONS(ASN1_PRINTABLESTRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_T61STRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_IA5STRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_GENERALSTRING)
-		DECLARE_ASN1_FUNCTIONS(ASN1_UTCTIME)
-		DECLARE_ASN1_FUNCTIONS(ASN1_GENERALIZEDTIME)
-		DECLARE_ASN1_FUNCTIONS(ASN1_TIME)
-		
-		DECLARE_ASN1_ITEM(ASN1_OCTET_STRING_NDEF)
-		*/
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLE_new")
+		]
+		public extern static STRING* PRINTABLE_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLE_free")
+		]
+		public extern static void PRINTABLE_free(STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static STRING* d2i_ASN1_PRINTABLE(STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_PRINTABLE(STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLE_it")
+		]
+		public extern static ASN1.ITEM* PRINTABLE_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static STRING* DIRECTORYSTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static void DIRECTORYSTRING_free(STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static STRING* d2i_DIRECTORYSTRINGe(STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_DIRECTORYSTRING(STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ASN1.ITEM* DIRECTORYSTRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static STRING* DISPLAYTEXT_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static void DISPLAYTEXT_free(STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static STRING* d2i_DISPLAYTEXT(STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_DISPLAYTEXT(STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ASN1.ITEM* DISPLAYTEXT_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLESTRING_new")
+		]
+		public extern static PRINTABLESTRING* PRINTABLESTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLESTRING_free")
+		]
+		public extern static void PRINTABLESTRING_free(PRINTABLESTRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static PRINTABLESTRING* d2i_ASN1_PRINTABLESTRING(PRINTABLESTRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_PRINTABLESTRING(PRINTABLESTRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_PRINTABLESTRING_it")
+		]
+		public extern static ASN1.ITEM* PRINTABLESTRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_T61STRING_new")
+		]
+		public extern static T61STRING* T61STRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_T61STRING_free")
+		]
+		public extern static void T61STRING_free(T61STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static T61STRING* d2i_ASN1_T61STRING(T61STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_T61STRING(T61STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_T61STRING_it")
+		]
+		public extern static ASN1.ITEM* T61STRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_IA5STRING_new")
+		]
+		public extern static IA5STRING* IA5STRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_IA5STRING_free")
+		]
+		public extern static void IA5STRING_free(IA5STRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static IA5STRING* d2i_ASN1_IA5STRING(IA5STRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_IA5STRING(IA5STRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_IA5STRING_it")
+		]
+		public extern static ASN1.ITEM* IA5STRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALSTRING_new")
+		]
+		public extern static GENERALSTRING* GENERALSTRING_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALSTRING_free")
+		]
+		public extern static void GENERALSTRING_free(GENERALSTRING* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static GENERALSTRING* d2i_ASN1_GENERALSTRING(GENERALSTRING** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_GENERALSTRING(GENERALSTRING* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALSTRING_it")
+		]
+		public extern static ASN1.ITEM* GENERALSTRING_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTCTIME_new")
+		]
+		public extern static UTCTIME* UTCTIME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTCTIME_free")
+		]
+		public extern static void UTCTIME_free(UTCTIME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static UTCTIME* d2i_ASN1_UTCTIME(UTCTIME** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_UTCTIME(UTCTIME* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_UTCTIME_it")
+		]
+		public extern static ASN1.ITEM* UTCTIME_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALIZEDTIME_new")
+		]
+		public extern static GENERALIZEDTIME* GENERALIZEDTIME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALIZEDTIME_free")
+		]
+		public extern static void GENERALIZEDTIME_free(GENERALIZEDTIME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static GENERALIZEDTIME* d2i_ASN1_GENERALIZEDTIME(GENERALIZEDTIME** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_GENERALIZEDTIME(GENERALIZEDTIME* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_GENERALIZEDTIME_it")
+		]
+		public extern static ASN1.ITEM* GENERALIZEDTIME_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_TIME_new")
+		]
+		public extern static TIME* TIME_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_TIME_free")
+		]
+		public extern static void TIME_free(TIME* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static TIME* d2i_ASN1_TIME(TIME** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ASN1_TIME(TIME* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_TIME_it")
+		]
+		public extern static ASN1.ITEM* TIME_it();
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("ASN1_OCTET_STRING_NDEF_it")
+		]
+		public extern static ASN1.ITEM* OCTET_STRING_NDEF_it();
+
 		
 		[
 #if !OPENSSL_LINK_STATIC

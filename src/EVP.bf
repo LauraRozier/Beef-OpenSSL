@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class EVP
+	sealed static class EVP
 	{
 		[
 #if !OPENSSL_LINK_STATIC

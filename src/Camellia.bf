@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Camellia
+	sealed static class Camellia
 	{
 		public const int ENCRYPT = 1;
 		public const int DECRYPT = 0;

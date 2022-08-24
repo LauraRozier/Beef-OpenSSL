@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class NID
+	sealed static class NID
 	{
 		public const int32 undef                                                  = 0;
 		public const int32 itu_t                                                  = 645;

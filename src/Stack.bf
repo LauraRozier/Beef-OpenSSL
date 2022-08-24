@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Stack
+	sealed static class Stack
 	{
 		[CRepr]
 		public struct stack_st

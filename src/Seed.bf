@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Seed
+	sealed static class Seed
 	{
 #if !OPENSSL_NO_SEED
 	/* look whether we need 'long' to get 32 bits */

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class KDF
+	sealed static class KDF
 	{
 		[
 #if !OPENSSL_LINK_STATIC

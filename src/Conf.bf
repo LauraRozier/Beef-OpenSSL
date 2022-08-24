@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Conf
+	sealed static class Conf
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -416,7 +416,7 @@ namespace Beef_OpenSSL
 	}
 
 	[AlwaysInclude]
-	sealed abstract class NConf
+	sealed static class NConf
 	{
 		[
 #if !OPENSSL_LINK_STATIC

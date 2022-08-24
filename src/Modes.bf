@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Modes
+	sealed static class Modes
 	{
 		public function void block128_f(uint8[16] inVal, uint8[16] outVal, void* key);
 		public function void cbc128_f(uint8* inVal, uint8* outVal, uint len, void* key, uint8[16] ivec, int enc);

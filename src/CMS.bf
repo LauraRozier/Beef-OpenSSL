@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class CMS
+	sealed static class CMS
 	{
 #if !OPENSSL_NO_CMS
 		[

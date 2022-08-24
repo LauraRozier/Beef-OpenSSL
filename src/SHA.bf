@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SHA
+	sealed static class SHA
 	{
 		/*-
 		 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -73,7 +73,7 @@ namespace Beef_OpenSSL
 		public extern static void Transform(CTX* c, uint8* data);
 	}
 
-	sealed abstract class SHA224
+	sealed static class SHA224
 	{
 		public const int DIGEST_LENGTH = 28;
 
@@ -107,7 +107,7 @@ namespace Beef_OpenSSL
 		public extern static uint8* SHA224(uint8* d, uint n, uint8* md);
 	}
 
-	sealed abstract class SHA256
+	sealed static class SHA256
 	{
 		/* SHA-256 treats input data as a contiguous array of 32 bit wide big-endian values. */
 		public const int CBLOCK        = SHA.LBLOCK * 4;
@@ -162,7 +162,7 @@ namespace Beef_OpenSSL
 		public extern static void Transform(CTX* c, uint8* data);
 	}
 
-	sealed abstract class SHA384
+	sealed static class SHA384
 	{
 		public const int DIGEST_LENGTH = 48;
 
@@ -196,7 +196,7 @@ namespace Beef_OpenSSL
 		public extern static uint8* SHA384(uint8* d, uint n, uint8* md);
 	}
 
-	sealed abstract class SHA512
+	sealed static class SHA512
 	{
 		/*
 		 * Unlike 32-bit digest algorithms, SHA-512 *relies* on SHA_LONG64 being exactly 64-bit wide. See Implementation Notes in sha512.c for further details.

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class TS
+	sealed static class TS
 	{
 #if !OPENSSL_NO_TS
 		[
@@ -1709,7 +1709,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ESS
+	sealed static class ESS
 	{
 		public struct stack_st_POLICYINFO {}
 		

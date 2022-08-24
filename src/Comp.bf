@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Comp
+	sealed static class Comp
 	{
 #if !OPENSSL_NO_COMP
 		[

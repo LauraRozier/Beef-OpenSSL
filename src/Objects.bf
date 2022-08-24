@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Objects
+	sealed static class Objects
 	{
 		/* ObjMAC header */
 		public const int32 undef                                                              = 0L;

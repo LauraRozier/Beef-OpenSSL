@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SafeStack
+	sealed static class SafeStack
 	{
 		/*-
 		 * Strings are special: normally an lhash entry will point to a single (somewhat) mutable object.

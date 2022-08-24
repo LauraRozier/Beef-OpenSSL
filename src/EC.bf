@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class EC
+	sealed static class EC
 	{
 #if !OPENSSL_NO_EC
 		[
@@ -2426,7 +2426,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ECParameters
+	sealed static class ECParameters
 	{
 #if !OPENSSL_NO_EC
 		/********************************************************************/
@@ -2498,7 +2498,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ECPKParameters
+	sealed static class ECPKParameters
 	{
 #if !OPENSSL_NO_EC
 		[
@@ -2560,7 +2560,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ECX
+	sealed static class ECX
 	{
 #if !OPENSSL_NO_EC
 		public const int X25519_KEYLEN = 32;
@@ -2578,7 +2578,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ECDH
+	sealed static class ECDH
 	{
 #if !OPENSSL_NO_EC
 		/** The old name for ecdh_KDF_X9_63 The ECDH KDF specification has been mistakingly attributed to ANSI X9.62, it is actually specified in ANSI X9.63.
@@ -2602,7 +2602,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class ECDSA
+	sealed static class ECDSA
 	{
 #if !OPENSSL_NO_EC
 		[CRepr]

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SSLeay
+	sealed static class SSLeay
 	{
 		/* SSLeay compat */
 		public const int VERSION_NUMBER = OpenSSL.VERSION_NUMBER;
@@ -23,14 +23,14 @@ namespace Beef_OpenSSL
 		public const int DIR            = OpenSSL.DIR;
 		
 		[Inline]
-		public uint SSLeay()            => OpenSSL.version_num();
+		public static uint SSLeay()             => OpenSSL.version_num();
 		[Inline]
-		public char8* version(int type) => OpenSSL.version(type);
+		public static char8* version(int type)  => OpenSSL.version(type);
 		[Inline]
 		public static void add_ssl_algorithms() => SSL.library_init();
 	}
 
-	sealed abstract class OpenSSL
+	sealed static class OpenSSL
 	{
 		public const int VERSION     = 0;
 		public const int CFLAGS      = 1;

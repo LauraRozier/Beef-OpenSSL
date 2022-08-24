@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class DSO
+	sealed static class DSO
 	{
 		/* These values are used as commands to DSO_ctrl() */
 		public const int CTRL_GET_FLAGS = 1;

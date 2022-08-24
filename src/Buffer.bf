@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Buffer
+	sealed static class Buffer
 	{
 		[
 #if !OPENSSL_LINK_STATIC

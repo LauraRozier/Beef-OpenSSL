@@ -3,7 +3,7 @@ using Beef_OpenSSL;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class AppLink
+	sealed static class AppLink
 	{
         [CLink]
         extern static void AppLink_setStdin(function void*() func);

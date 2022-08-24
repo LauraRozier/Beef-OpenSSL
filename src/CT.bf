@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class CT
+	sealed static class CT
 	{
 #if !OPENSSL_NO_CT
 		[
@@ -196,7 +196,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class CTLOG
+	sealed static class CTLOG
 	{
 #if !OPENSSL_NO_CT
 		/* Minimum RSA key size, from RFC6962 */
@@ -331,7 +331,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class SCT
+	sealed static class SCT
 	{
 #if !OPENSSL_NO_CT
 		[CRepr]

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class EBCDIC
+	sealed static class EBCDIC
 	{
 		/** TODO: Once BeefLang is able to handle extern vars/consts these can be ported. **/
 		// public extern const unsigned char os_toascii[256];

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class PKCS1
+	sealed static class PKCS1
 	{
 #if !OPENSSL_NO_RSA
 		[
@@ -24,7 +24,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class PKCS5
+	sealed static class PKCS5
 	{
 		public const int SALT_LEN     = 8;
 		/* Default PKCS#5 iteration count */
@@ -128,7 +128,7 @@ namespace Beef_OpenSSL
 		public extern static X509.ALGOR* pbkdf2_set(int iter, uint8* salt, int saltlen, int prf_nid, int keylen);
 	}
 
-	sealed abstract class PKCS7
+	sealed static class PKCS7
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -412,7 +412,42 @@ namespace Beef_OpenSSL
 		public const int REUSE_DIGEST    = 0x8000;
 		public const int NO_DUAL_CONTENT = 0x10000;
 
-		// DECLARE_ASN1_FUNCTIONS(ISSUER_AND_SERIAL)
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ISSUER_AND_SERIAL* ISSUER_AND_SERIAL_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static void ISSUER_AND_SERIAL_free(ISSUER_AND_SERIAL* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ISSUER_AND_SERIAL* d2i_ISSUER_AND_SERIAL(ISSUER_AND_SERIAL** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_ISSUER_AND_SERIAL(ISSUER_AND_SERIAL* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static ASN1.ITEM* ISSUER_AND_SERIAL_it();
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -440,9 +475,9 @@ namespace Beef_OpenSSL
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
 #endif
-			LinkName("PKCS7_dup")
+			CLink
 		]
-		public extern static pkcs7_st* dup(pkcs7_st* p7);
+		public extern static pkcs7_st* PKCS7_dup(pkcs7_st* p7);
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -465,9 +500,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static int i2d_PKCS7_bio_stream(BIO.bio_st* outVal, pkcs7_st* p7, BIO.bio_st* inVal, int flags);
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_SIGNER_INFO)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -504,9 +536,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* SIGNER_INFO_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_RECIP_INFO)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -543,9 +572,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* RECIP_INFO_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_SIGNED)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -582,9 +608,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* SIGNED_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_ENC_CONTENT)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -621,9 +644,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* ENC_CONTENT_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_ENVELOPE)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -660,9 +680,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* ENVELOPE_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_SIGN_ENVELOPE)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -699,9 +716,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* SIGN_ENVELOPE_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_DIGEST)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -738,9 +752,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* DIGEST_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7_ENCRYPT)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -777,9 +788,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* ENCRYPT_it();
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS7)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -816,9 +824,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* PKCS7_it();
 
-		/*
-		DECLARE_ASN1_ITEM(PKCS7_ATTR_SIGN)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -827,9 +832,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* ATTR_SIGN_it();
 
-		/*
-		DECLARE_ASN1_ITEM(PKCS7_ATTR_VERIFY)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -838,19 +840,14 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* ATTR_VERIFY_it();
 
-		/*
-		DECLARE_ASN1_NDEF_FUNCTION(PKCS7)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
 #endif
 			CLink
 		]
-		public extern static int i2d_PKCS7_NDEF(pkcs7_st* a, uint8** outVal);
-		/*
-		DECLARE_ASN1_PRINT_FUNCTION(PKCS7)
-		*/
+		public extern static int i2d_PKCS7_NDEF(pkcs7_st* a, uint8** _out);
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1208,7 +1205,7 @@ namespace Beef_OpenSSL
 		public extern static TS.TST_INFO* to_TS_TST_INFO(pkcs7_st* token);
 	}
 
-	sealed abstract class PKCS8
+	sealed static class PKCS8
 	{
 		/* PKCS#8 private key info structure */
 		[CRepr]
@@ -1220,6 +1217,44 @@ namespace Beef_OpenSSL
 		    public X509.stack_st_X509_ATTRIBUTE* attributes;
 		}
 		public typealias PRIV_KEY_INFO = priv_key_info_st;
+
+		/* PKCS#8 utilities */
+
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKCS8_PRIV_KEY_INFO_new")
+		]
+		public extern static PRIV_KEY_INFO* PRIV_KEY_INFO_new();
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKCS8_PRIV_KEY_INFO_free")
+		]
+		public extern static void PRIV_KEY_INFO_free(PRIV_KEY_INFO* a);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static PRIV_KEY_INFO* d2i_PKCS8_PRIV_KEY_INFO(PRIV_KEY_INFO** a, uint8** _in, int length);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			CLink
+		]
+		public extern static int i2d_PKCS8_PRIV_KEY_INFO(PRIV_KEY_INFO* a, uint8** _out);
+		[
+#if !OPENSSL_LINK_STATIC
+			Import(OPENSSL_LIB_CRYPTO),
+#endif
+			LinkName("PKCS8_PRIV_KEY_INFO_it")
+		]
+		public extern static ASN1.ITEM* PRIV_KEY_INFO_it();
 
 		[
 #if !OPENSSL_LINK_STATIC
@@ -1288,7 +1323,7 @@ namespace Beef_OpenSSL
 		public extern static int pkey_add1_attr_by_NID(PRIV_KEY_INFO* p8, int nid, int type, uint8* bytes, int len);
 	}
 
-	sealed abstract class PKCS12
+	sealed static class PKCS12
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -1790,9 +1825,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static int setup_mac(PKCS12_st* p12, int iter, uint8* salt, int saltlen, EVP.MD* md_type);
 
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS12)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1828,9 +1860,7 @@ namespace Beef_OpenSSL
 			CLink
 		]
 		public extern static ASN1.ITEM* PKCS12_it();
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS12_MAC_DATA)
-		*/
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1866,9 +1896,7 @@ namespace Beef_OpenSSL
 			LinkName("PKCS12_MAC_DATA_it")
 		]
 		public extern static ASN1.ITEM* MAC_DATA_it();
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS12_SAFEBAG)
-		*/
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1904,9 +1932,7 @@ namespace Beef_OpenSSL
 			LinkName("PKCS12_SAFEBAG_it")
 		]
 		public extern static ASN1.ITEM* SAFEBAG_it();
-		/*
-		DECLARE_ASN1_FUNCTIONS(PKCS12_BAGS)
-		*/
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1943,9 +1969,6 @@ namespace Beef_OpenSSL
 		]
 		public extern static ASN1.ITEM* BAGS_it();
 
-		/*
-		DECLARE_ASN1_ITEM(PKCS12_SAFEBAGS)
-		*/
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),
@@ -1953,9 +1976,7 @@ namespace Beef_OpenSSL
 			LinkName("PKCS12_SAFEBAGS_it")
 		]
 		public extern static ASN1.ITEM* SAFEBAGS_it();
-		/*
-		DECLARE_ASN1_ITEM(PKCS12_AUTHSAFES)
-		*/
+
 		[
 #if !OPENSSL_LINK_STATIC
 			Import(OPENSSL_LIB_CRYPTO),

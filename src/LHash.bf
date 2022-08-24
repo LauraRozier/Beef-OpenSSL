@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class LHash
+	sealed static class LHash
 	{
 		[CRepr]
 		public struct lhash_st

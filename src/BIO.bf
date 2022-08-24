@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class BIO
+	sealed static class BIO
 	{
 		[
 #if !OPENSSL_LINK_STATIC

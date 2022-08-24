@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Rand
+	sealed static class Rand
 	{
 		[
 #if !OPENSSL_LINK_STATIC
@@ -287,7 +287,7 @@ namespace Beef_OpenSSL
 #endif
 	}
 
-	sealed abstract class RandDRBG
+	sealed static class RandDRBG
 	{
 		/* DRBG status values */
 		[CRepr]

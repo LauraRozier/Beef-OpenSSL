@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SRP
+	sealed static class SRP
 	{
 #if !OPENSSL_NO_SRP
 		[CRepr]

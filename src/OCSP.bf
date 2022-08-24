@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class OCSP
+	sealed static class OCSP
 	{
 #if !OPENSSL_NO_OCSP
 		[

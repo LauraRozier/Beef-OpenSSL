@@ -12,7 +12,7 @@ using System;
 namespace Beef_OpenSSL
 {
 	[AlwaysInclude]
-	sealed abstract class Async
+	sealed static class Async
 	{
 		[
 #if !OPENSSL_LINK_STATIC

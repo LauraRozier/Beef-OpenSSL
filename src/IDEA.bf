@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class IDEA
+	sealed static class IDEA
 	{
 #if !OPENSSL_NO_IDEA
 		typealias IDEA_INT = uint;

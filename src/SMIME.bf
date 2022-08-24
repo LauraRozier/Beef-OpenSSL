@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SMIME
+	sealed static class SMIME
 	{
 		[
 #if !OPENSSL_LINK_STATIC

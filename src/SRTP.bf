@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class SRTP
+	sealed static class SRTP
 	{
 		public const int AES128_CM_SHA1_80 = 0x0001;
 		public const int AES128_CM_SHA1_32 = 0x0002;

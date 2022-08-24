@@ -18,7 +18,7 @@ namespace Beef_OpenSSL_Test
 	public typealias OPT_PAIR = string_int_pair_st;
 	public typealias STRINT_PAIR = string_int_pair_st;
 
-	sealed abstract class OsslOpt
+	sealed static class OsslOpt
 	{
 		public const int MAX_OPT_HELP_WIDTH = 30;
 		public const String HELP_STR = "--";

@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class PEM
+	sealed static class PEM
 	{
 		[
 #if !OPENSSL_LINK_STATIC

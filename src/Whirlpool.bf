@@ -11,7 +11,7 @@ using System;
 
 namespace Beef_OpenSSL
 {
-	sealed abstract class Whirlpool
+	sealed static class Whirlpool
 	{
 #if !OPENSSL_NO_WHIRLPOOL
 		public const int DIGEST_LENGTH = 512 / 8;
